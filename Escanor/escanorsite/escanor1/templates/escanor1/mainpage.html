@@ -1,0 +1,128 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+.header-styling {
+background-color: #c9daf5;
+position: relative;
+  z-index: -1;
+  margin-bottom: -20px;
+  padding: 10 10 20;
+  text-align: center;
+  font-family: 'Lato';
+}
+
+.main-body-styling{
+background-color: #c9daf5;
+padding: 0 10 0 10;
+filter: saturate(.9);
+text-align: center;
+margin-bottom: -20px;
+}
+
+.desc-paragraph {
+	font-family: 'Lato';
+	font-size: 20px;
+	filter: saturate(.9);
+}
+
+
+.list-container {
+	background-color: #c9daf5;
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	filter: saturate(.8);
+	}
+
+.features-styling {
+	font-family: 'Lato';
+	font-size: 20px;
+	background-color: #c9daf5;
+	padding: 10 10 0 10;
+	width: 40%;
+	display:inline-block
+}
+
+.design-concepts-styling {
+font-family: 'Lato';
+	font-size: 20px;
+	background-color: #c9daf5;
+	padding: 10 10 0 10;
+	width: 40%;
+	display:inline-block
+}
+
+.buttons-div-styling {
+	display: flex;
+	background-color: #c9daf5;
+	width: 100%;
+	padding: 20 10 10 10;
+}
+
+.buttons-pc-download {
+	height: 60px;
+	width: 200px;
+	margin: 0 auto;
+	font-size: 20;
+}
+
+.buttons-mac-download {
+	height: 60px;
+	width: 200px;
+	margin: 0 auto;
+	font-size: 20;
+}
+
+
+</style>
+
+<!DOCTYPE html>
+<html style="background-color: #c9daf5">
+<header>
+<div class=header-styling>
+<h1>Escanor Data Cleaning</h1>
+<h2>Less clutter. More cleaning.
+<br> 
+</h2>
+</div>
+</header>
+<body>
+<div class=main-body-styling>
+	<p class=desc-paragraph>
+	Escanor is built so Business Analyists and Engineers can download and begin cleaninging their data in minutes.
+	<br>
+	It is built on the belief that 80% of the data cleaning process comes from about 20% of functions made available by a product.
+	Escanor brings data alterations in termonology anyone can understand and an interface that anyone can use.
+	<br>
+	Escanor is designed to give BAs autonomy and give Engineers more time to do valueable work. </p>
+</div>
+	<div class="list-container">
+		<div class=features-styling>
+			<ul class=list-formating>
+			Features
+			<br>
+			<br>
+			<li>Tools to clean, transform and analyse your data </li>
+			<li>Ability to access files both on your pc and on the cloud </li>
+			<li>Export the result of your transformations</li>
+			<li>Take the python and pyspark code used to generate the output so you can productionise the transformations</li>
+			</ul>
+		</div>
+		<div class=design-concepts-styling>
+			<ul class=list-formating>
+			Design Concepts
+			<br>
+			<br>
+			<li>If you need a tutorial, the software has become to complex </li>
+			<li>You should be helped by escanor, not dependant on it. </li>
+			<li>Focus on the simple tasks and execute them perfectly.</li>
+			</ul>
+		</div>
+	</div>
+<div class="buttons-div-styling">
+	<button href="pc file" download class="buttons-pc-download"> Download PC </button>
+	<button href="mac file" download class="buttons-mac-download"> Download Mac </button>
+</body>
+</html>
+
