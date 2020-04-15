@@ -1,14 +1,15 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file '/Users/Orion 1/Desktop/DSpanner.ui'
-#
-# Created by: PyQt5 UI code generator 5.14.2
-#
-# WARNING! All changes made in this file will be lost!
-
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+#Imports
+from tkinter import *
+from tkinter import filedialog
+import pandas as pd
+import numpy as np
+import boto3
+import io
+import os
+import datetime
+import sys, traceback
+import tkinter as tk
 
 class Ui_DSpanner(object):
     def setupUi(self, DSpanner):
@@ -86,7 +87,7 @@ class Ui_DSpanner(object):
         self.CodeSwitch.addTab(self.PySpark, "")
         self.Outputs.addWidget(self.CodeSwitch)
         self.CheckDataFrame = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.CheckDataFrame.setEnabled(False)
+        self.CheckDataFrame.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -95,6 +96,7 @@ class Ui_DSpanner(object):
         self.CheckDataFrame.setIconSize(QtCore.QSize(10, 16))
         self.CheckDataFrame.setObjectName("CheckDataFrame")
         self.Outputs.addWidget(self.CheckDataFrame)
+        self.CheckDataFrame.clicked.connect(self.checker)
         self.ScrollPandas = QtWidgets.QScrollArea(self.verticalLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
@@ -394,6 +396,120 @@ class Ui_DSpanner(object):
         self.FindNullsButton.setText(_translate("DSpanner", "Find Nulls"))
         self.StorageUsageEstimateButton.setText(_translate("DSpanner", "Storage Usage Estimate"))
 
+    ##Functions start here##
+    def checker(self):
+        try:
+            self.OutputText.insertPlainText("Data as at: " + str(datetime.datetime.now()) +'\n' + df.to_string() + '\n\n')
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+
+    """
+    def reader():
+        credFNameEntry.delete('1.0', END)
+        credEntry.delete('1.0', END)
+        global credFName
+        credFName=filedialog.askopenfilename(initialdir=r"")
+        credFNameEntry.insert(END, credFName)
+        with open(credFName, "r") as f:
+                        credEntry.insert(END, f.read())
+     
+    def writer():
+        fileName=credFNameEntry.get('1.0', END)
+        with open(fileName.rstrip(), 'w') as cred_obj:
+                        cred_obj.write(credEntry.get('1.0', 'end-1c'))
+        cred_obj.close()
+     
+    def S3BucketData():
+        global df
+        targetObject=s3_client.get_object(Bucket=bucketEntry.get('1.0', 'end-1c'), Key=keyEntry.get('1.0', 'end-1c'))['Body'].read()
+        if sheetEntry.get('1.0', 'end-1c') == '':
+                        df=pd.read_excel(io.BytesIO(targetObject), encoding='utf-8')
+        else:
+                        df=pd.read_excel(io.BytesIO(targetObject), encoding='utf-8', sheet_name=sheetEntry.get('1.0', 'end-1c'))
+    """               
+     
+    def dropBlankColumns(self):
+        global df
+        try:
+            df=df
+            df=df.loc[:, ~df.columns.str.contains('^Unnamed')]
+            self.PandasCode.insertPlainText("df=df.loc[:, ~df.columns.str.contains('^Unnamed')]")
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+     
+    def executeDataCast():
+        global df
+        try:
+            df=df
+            dataType=v.get()
+            column=nameofColumnToChangeDataType.get()
+            df[column] = df[column].astype(dataType)
+            self.PandasCode.insertPlainText( f"\ndf[{column}] = df[{column}].astype[{dataType}]")
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+
+    ## TO DO: this needs its output written  
+    def executefindnulls():
+        global dfnulls
+        global df
+        try:
+            df=df
+            column=nameofColumnToCheckForNulls.get()
+            dfnulls=df[df[column].isna()]
+            output.insert('1.0', dfnulls.to_string())
+            self.PandasCode.insertPlainText( f"\ndf=df[df[{column}].isna()]")
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+      
+                    
+
+    def melter():
+        ##make sure your variables follow the same pattern in how their written for readability
+        global df
+        try:
+            nameOfRowValues= rowvalue.get()
+            nameOfColumnValues= colvalue.get()
+            pivotOnColumns=pivoncolumns.get()
+            pivotWithColumns=pivwithcolumns.get()
+            df=df
+            df=pd.melt(df, id_vars=pivotOnColumns,
+                 value_vars=pivotWithColumns.split(', '),
+                 value_name=nameOfRowValues,
+                 var_name=nameOfColumnValues)
+            output.insert('1.0', df)
+            self.PandasCode.insertPlainText(f"""\npd.melt(df, id_vars={[pivotOnColumns]},
+                value_vars={pivotWithColumns}.split(', '),
+                value_name={nameOfRowValues},
+                var_name={nameOfColumnValues})""")
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+
+    ## you can easily make a xls version of this, remember to alter the inital dir
+    # def opencsv():
+    #     try:
+    #         path=filedialog.askopenfilename(initialdir="/Desktop",title="Select a file")
+    #         global df
+    #         df=pd.read_csv(filepath_or_buffer=str(path))
+    #     except Exception as e:
+    #         output.insert('1.0', '\n'+str(e)+'\n')
+
+    # def openxls():
+    #     try:
+    #         path=filedialog.askopenfilename(initialdir="/Desktop",title="Select a file")
+    #         global df
+    #         df=pd.read_excel(filepath_or_buffer=str(path))
+    #     except Exception as e:
+    #         output.insert('1.0', '\n'+str(e)+'\n')
+
+        
+    # ## TO DO: let them name their results themselves, not you. 
+    # def makecsv():
+    #     try:
+    #         df.to_csv(path_or_buf=str(path)+ "results.csv")
+    #     except Exception as e:
+    #                     output.insert('1.0', '\n'+str(e)+'\n')   
+
+
 
 if __name__ == "__main__":
     import sys
@@ -403,3 +519,6 @@ if __name__ == "__main__":
     ui.setupUi(DSpanner)
     DSpanner.show()
     sys.exit(app.exec_())
+
+
+
