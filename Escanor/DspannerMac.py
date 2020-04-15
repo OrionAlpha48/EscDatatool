@@ -1,7 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 #Imports
-from tkinter import *
-from tkinter import filedialog
 import pandas as pd
 import numpy as np
 import boto3
@@ -11,18 +9,14 @@ import datetime
 import sys, traceback
 import tkinter as tk
 
-class Ui_DSpanner(object):
+class Ui_MainWindow(object):
     def setupUi(self, DSpanner):
         DSpanner.setObjectName("DSpanner")
         DSpanner.resize(1440, 783)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(DSpanner.sizePolicy().hasHeightForWidth())
-        DSpanner.setSizePolicy(sizePolicy)
-        DSpanner.setMinimumSize(QtCore.QSize(10, 10))
-        self.verticalLayoutWidget = QtWidgets.QWidget(DSpanner)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 711, 781))
+        self.centralwidget = QtWidgets.QWidget(DSpanner)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 1, 711, 771))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.Outputs = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.Outputs.setContentsMargins(0, 4, 0, 0)
@@ -96,7 +90,6 @@ class Ui_DSpanner(object):
         self.CheckDataFrame.setIconSize(QtCore.QSize(10, 16))
         self.CheckDataFrame.setObjectName("CheckDataFrame")
         self.Outputs.addWidget(self.CheckDataFrame)
-        self.CheckDataFrame.clicked.connect(self.checker)
         self.ScrollPandas = QtWidgets.QScrollArea(self.verticalLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
@@ -106,7 +99,7 @@ class Ui_DSpanner(object):
         self.ScrollPandas.setWidgetResizable(True)
         self.ScrollPandas.setObjectName("ScrollPandas")
         self.ScollPandasArea = QtWidgets.QWidget()
-        self.ScollPandasArea.setGeometry(QtCore.QRect(0, 0, 697, 348))
+        self.ScollPandasArea.setGeometry(QtCore.QRect(0, 0, 697, 343))
         self.ScollPandasArea.setObjectName("ScollPandasArea")
         self.OutputText = QtWidgets.QTextEdit(self.ScollPandasArea)
         self.OutputText.setGeometry(QtCore.QRect(3, -2, 681, 371))
@@ -118,8 +111,8 @@ class Ui_DSpanner(object):
         self.OutputScroll.setObjectName("OutputScroll")
         self.ScrollPandas.setWidget(self.ScollPandasArea)
         self.Outputs.addWidget(self.ScrollPandas)
-        self.verticalLayoutWidget_2 = QtWidgets.QWidget(DSpanner)
-        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(739, -1, 701, 781))
+        self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(739, 0, 701, 771))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
         self.Tools = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.Tools.setContentsMargins(0, 0, 0, 0)
@@ -354,23 +347,89 @@ class Ui_DSpanner(object):
         self.MemoryUsageEstimateButton.raise_()
         self.StorageUsageEstimateButton.raise_()
         self.Tools.addWidget(self.AnalyseBox)
+        DSpanner.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(DSpanner)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1440, 22))
+        self.menubar.setObjectName("menubar")
+        self.menuFile = QtWidgets.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")
+        self.menuImport_Data = QtWidgets.QMenu(self.menubar)
+        self.menuImport_Data.setObjectName("menuImport_Data")
+        self.menuExport_Data = QtWidgets.QMenu(self.menubar)
+        self.menuExport_Data.setObjectName("menuExport_Data")
+        self.menuCloud_Settings = QtWidgets.QMenu(self.menubar)
+        self.menuCloud_Settings.setObjectName("menuCloud_Settings")
+        DSpanner.setMenuBar(self.menubar)
+        self.menubar.setNativeMenuBar(False)
+        self.statusbar = QtWidgets.QStatusBar(DSpanner)
+        self.statusbar.setObjectName("statusbar")
+        DSpanner.setStatusBar(self.statusbar)
+        self.CredentialsAWS = QtWidgets.QAction(DSpanner)
+        self.CredentialsAWS.setObjectName("CredentialsAWS")
+        self.CredentialsAzure = QtWidgets.QAction(DSpanner)
+        self.CredentialsAzure.setObjectName("CredentialsAzure")
+        self.ExportCSV = QtWidgets.QAction(DSpanner)
+        self.ExportCSV.setObjectName("ExportCSV")
+        self.ExportPSV = QtWidgets.QAction(DSpanner)
+        self.ExportPSV.setObjectName("ExportPSV")
+        self.ExportExcel = QtWidgets.QAction(DSpanner)
+        self.ExportExcel.setObjectName("ExportExcel")
+        self.ExportText = QtWidgets.QAction(DSpanner)
+        self.ExportText.setObjectName("ExportText")
+        self.ImportCSV = QtWidgets.QAction(DSpanner)
+        self.ImportCSV.setObjectName("ImportCSV")
+        self.ImportExcel = QtWidgets.QAction(DSpanner)
+        self.ImportExcel.setObjectName("ImportExcel")
+        self.Quit = QtWidgets.QAction(DSpanner)
+        self.Quit.setObjectName("Quit")
+        self.menuFile.addAction(self.Quit)
+        self.menuImport_Data.addAction(self.ImportCSV)
+        self.menuImport_Data.addAction(self.ImportExcel)
+        self.menuExport_Data.addAction(self.ExportCSV)
+        self.menuExport_Data.addAction(self.ExportPSV)
+        self.menuExport_Data.addAction(self.ExportExcel)
+        self.menuExport_Data.addAction(self.ExportText)
+        self.menuCloud_Settings.addAction(self.CredentialsAWS)
+        self.menuCloud_Settings.addAction(self.CredentialsAzure)
+        self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuImport_Data.menuAction())
+        self.menubar.addAction(self.menuExport_Data.menuAction())
+        self.menubar.addAction(self.menuCloud_Settings.menuAction())
 
         self.retranslateUi(DSpanner)
         self.CodeSwitch.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(DSpanner)
 
+
+#button connections      
+        self.CheckDataFrame.clicked.connect(self.checker)
+        self.RestoreDFButton.clicked.connect(self.RestoreDF)
+        self.SaveDFButton.clicked.connect(self.SaveDF)
+        self.ColumnTitlesLowerCaseButton.clicked.connect(self.columnLowerCase)
+        self.DropBlankColumnsButton.clicked.connect(self.dropBlankColumns)
+        self.RemoveWhiteSpaceInHeadersButton.clicked.connect(self.stripWhiteSpace)
+        self.CastDataTypesButton.clicked.connect(self.executeDataCast)
+        self.CountRowsButton.clicked.connect(self.RowCount)
+        self.PrintDataTypesButton.clicked.connect(self.printDatatypes)
+        self.MemoryUsageEstimateButton.clicked.connect(self.memoryUsage)
+        self.FindNullsButton.clicked.connect(self.executefindnulls)
+        self.StorageUsageEstimateButton.clicked.connect(self.StorageUsage)
+
+#menu connections
+        self.menuImport_Data.triggered.connect(self.openCSV)
+
     def retranslateUi(self, DSpanner):
         _translate = QtCore.QCoreApplication.translate
-        DSpanner.setWindowTitle(_translate("DSpanner", "Dialog"))
+        DSpanner.setWindowTitle(_translate("DSpanner", "MainWindow"))
         self.Outputs_Label.setText(_translate("DSpanner", "Outputs"))
         self.CodeSwitch.setTabText(self.CodeSwitch.indexOf(self.Pandas), _translate("DSpanner", "Pandas"))
         self.CodeSwitch.setTabText(self.CodeSwitch.indexOf(self.PySpark), _translate("DSpanner", "PySpark"))
         self.CheckDataFrame.setText(_translate("DSpanner", "Check Data Frame"))
         self.OutputText.setHtml(_translate("DSpanner", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+        "p, li { white-space: pre-wrap; }\n"
+        "</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
+        "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.ToolsLabel.setText(_translate("DSpanner", "Tools"))
         self.UtilitiesBox.setTitle(_translate("DSpanner", "Utilities"))
         self.MakeCSVButton.setText(_translate("DSpanner", "Make CSV"))
@@ -395,6 +454,22 @@ class Ui_DSpanner(object):
         self.MemoryUsageEstimateButton.setText(_translate("DSpanner", "Memory Usage Estimate"))
         self.FindNullsButton.setText(_translate("DSpanner", "Find Nulls"))
         self.StorageUsageEstimateButton.setText(_translate("DSpanner", "Storage Usage Estimate"))
+        self.menuFile.setTitle(_translate("DSpanner", "File"))
+        self.menuImport_Data.setTitle(_translate("DSpanner", "Import Data"))
+        self.menuExport_Data.setTitle(_translate("DSpanner", "Export Data"))
+        self.menuCloud_Settings.setTitle(_translate("DSpanner", "Cloud Settings"))
+        self.CredentialsAWS.setText(_translate("DSpanner", "AWS"))
+        self.CredentialsAzure.setText(_translate("DSpanner", "Azure"))
+        self.ExportCSV.setText(_translate("DSpanner", "CSV"))
+        self.ExportPSV.setText(_translate("DSpanner", "PSV"))
+        self.ExportExcel.setText(_translate("DSpanner", "Excel"))
+        self.ExportText.setText(_translate("DSpanner", "Text"))
+        self.ImportCSV.setText(_translate("DSpanner", "CSV"))
+        self.ImportExcel.setText(_translate("DSpanner", "Excel"))
+        self.Quit.setText(_translate("DSpanner", "Quit"))
+
+
+        
 
     ##Functions start here##
     def checker(self):
@@ -437,7 +512,7 @@ class Ui_DSpanner(object):
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
      
-    def executeDataCast():
+    def executeDataCast(self):
         global df
         try:
             df=df
@@ -447,23 +522,22 @@ class Ui_DSpanner(object):
             self.PandasCode.insertPlainText( f"\ndf[{column}] = df[{column}].astype[{dataType}]")
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
-
-    ## TO DO: this needs its output written  
-    def executefindnulls():
+ 
+    def executefindnulls(self):
         global dfnulls
         global df
         try:
             df=df
             column=nameofColumnToCheckForNulls.get()
             dfnulls=df[df[column].isna()]
-            output.insert('1.0', dfnulls.to_string())
-            self.PandasCode.insertPlainText( f"\ndf=df[df[{column}].isna()]")
+            self.OutputText.insertPlainText(dfnulls.to_string())
+            self.PandasCode.insertPlainText(f"\ndf=df[df[{column}].isna()]")
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
       
                     
 
-    def melter():
+    def melter(self):
         ##make sure your variables follow the same pattern in how their written for readability
         global df
         try:
@@ -476,7 +550,7 @@ class Ui_DSpanner(object):
                  value_vars=pivotWithColumns.split(', '),
                  value_name=nameOfRowValues,
                  var_name=nameOfColumnValues)
-            output.insert('1.0', df)
+            self.OutputText.insertPlainText(df.to_string())
             self.PandasCode.insertPlainText(f"""\npd.melt(df, id_vars={[pivotOnColumns]},
                 value_vars={pivotWithColumns}.split(', '),
                 value_name={nameOfRowValues},
@@ -484,14 +558,14 @@ class Ui_DSpanner(object):
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
 
-    ## you can easily make a xls version of this, remember to alter the inital dir
-    # def opencsv():
-    #     try:
-    #         path=filedialog.askopenfilename(initialdir="/Desktop",title="Select a file")
-    #         global df
-    #         df=pd.read_csv(filepath_or_buffer=str(path))
-    #     except Exception as e:
-    #         output.insert('1.0', '\n'+str(e)+'\n')
+    # you can easily make a xls version of this, remember to alter the inital dir
+    def openCSV(self):
+        try:
+            path = QtWidgets.QFileDialog.getOpenFileName(None, "Select CSV", "/Users/Orion 1/Desktop")[0]
+            global df
+            df=pd.read_csv(filepath_or_buffer=path)
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
 
     # def openxls():
     #     try:
@@ -499,7 +573,7 @@ class Ui_DSpanner(object):
     #         global df
     #         df=pd.read_excel(filepath_or_buffer=str(path))
     #     except Exception as e:
-    #         output.insert('1.0', '\n'+str(e)+'\n')
+    #         self.OutputText.insertPlainText('\n'+str(e)+'\n')
 
         
     # ## TO DO: let them name their results themselves, not you. 
@@ -507,18 +581,234 @@ class Ui_DSpanner(object):
     #     try:
     #         df.to_csv(path_or_buf=str(path)+ "results.csv")
     #     except Exception as e:
-    #                     output.insert('1.0', '\n'+str(e)+'\n')   
+    #                     self.OutputText.insertPlainText('\n'+str(e)+'\n')   
 
+
+    def printDatatypes(self):
+        global df
+        try:
+            df=df
+            output.insert('1.0',(df.dtypes))
+            self.PandasCode.insertPlainText(f"""\n(df.dtypes)""")
+        except Exception as e:
+                    self.OutputText.insertPlainText('\n'+str(e)+'\n')
+    
+    def columnLowerCase(self):
+        global df
+        try:
+            df=df
+            df.columns=map(str.lower, df.columns)
+            self.PandasCode.insertPlainText(f"""\ndf.columns=map(str.lower, df.columns)""")
+        except Exception as e:
+                        self.OutputText.insertPlainText('\n'+str(e)+'\n')
+    
+    def columnRemoveSpaces(self):
+        global df
+        try:
+            df=df
+            df.columns=df.columns.str.replace(' ', '_')
+            self.PandasCode.insertPlainText(f"""\ndf.columns=df.columns.str.replace(' ', '_')""")
+        except Exception as e:
+                        self.OutputText.insertPlainText('\n'+str(e)+'\n')
+
+## TO DO: This is cute, but what if its the sum of two columns per row.
+## probably will never need the sum of all
+    def SummOp(self):
+        global df
+        try:
+            df=df
+            res=df.groupby([groupByColumns.get()])[columnToSum.get()].sum()
+            self.OutputText.insertPlainText(res)
+            self.PandasCode.insertPlainText(f"""res=df.groupby([{groupByColumns}.get()])[{columnToSum}.get()].sum()""")
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+
+
+    def stripWhiteSpace(self):
+        global df
+        try:
+            df=df
+            columToStrip=columnsToStrip.get()
+            df[columnToStrip] = df[columnToStrip].str.strip()
+            self.OutputText.insertPlainText(df.to_string)
+            self.PandasCode.insertPlainText(f"""df[{columnToStrip}] = df[{columnToStrip}].str.strip()""")
+        except Exception as e:
+                    self.OutputText.insertPlainText('\n'+str(e)+'\n')
+
+# def summerPop(self):
+#     summerPopUp=Toplevel(root, height=100, width=100)
+#     global groupByColumns
+#     global df
+#     global columnToSum
+#     df=df
+#     groupByColumns=Entry(summerPopUp)
+#     groupByColumns.insert(END, 'Group by Columns')
+#     columnToSum=Entry(summerPopUp)
+#     columnToSum.insert(END, 'Column to Sum')
+#     groupByColumns.grid(row=0, column=0)
+#     columnToSum.grid(row=1, column=0)
+#     SummColumnButton=Button(summerPopUp, command=SummOp, text='Sum Column', highlightbackground="goldenrod2")
+#     SummColumnButton.grid(row=2, column=0, pady=10, sticky= 'ew')
+
+
+# def stripPop(self):
+#     stripPopUp=Toplevel(root, height=100, width=100)
+#     global columnToStrip
+#     global df
+#     df=df
+#     columnsToStrip=Entry(stripPopUp)
+#     columnsToStrip.grid(row=0, column=0)
+#     stripColumnButton=Button(stripPopUp, command=stripWhiteSpace, text='strip White Space', highlightbackground="goldenrod2")
+#     stripColumnButton.grid(row=1, column=0, pady=10, sticky= 'ew')
+
+
+    def replacer(self):
+        global df
+        global valuetoReplace
+        global relaceWith
+        try:
+            df=df
+            df[columnToRep.get()] = df[columnToRep.get()].replace(valuetoReplace.get(), replaceWith.get())
+            self.OutputText.insertPlainText(df.to_string)
+            self.PandasCode.insertPlainText(f"""df[{columnToRep.get()}] = df[{columnToRep.get()}].replace({valuetoReplace.get()}, {replaceWith.get()})""")
+        except Exception as e:
+                    self.OutputText.insertPlainText('\n'+str(e)+'\n')
+
+# def replacerPop(self):
+#     replacerPopUp=Toplevel(root, height=100, width=100)
+#     global columnToRep
+#     global df
+#     global valuetoReplace
+#     global replaceWith
+#     df=df
+#     columnToRep=Entry(replacerPopUp)
+#     valuetoReplace=Entry(replacerPopUp)
+#     replaceWith=Entry(replacerPopUp)
+#     columnToRep.grid(row=0, column=0)
+#     valuetoReplace.grid(row=1, column=0)
+#     replaceWith.grid(row=2, column=0)
+#     replacerButton=Button(replacerPopUp, command=replacer, text='Replace', highlightbackground="goldenrod2")
+#     replacerButton.grid(row=3, column=0, pady=10, sticky= 'ew')
+
+    def SaveDF(self):
+        global df
+        global dfsaved
+        try:
+            dfsaved=df
+        except Exception as e:
+                    self.OutputText.insertPlainText('\n'+str(e)+'\n')
+
+    def RestoreDF(self):
+        global df
+        global dfsaved
+        try:
+            df=dfsaved
+        except Exception as e:
+                    self.OutputText.insertPlainText('\n'+str(e)+'\n')
+
+    def RowCount(self):
+        global df
+        try:
+            self.OutputText.insertPlainText(len(df.index))
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+
+    def memoryUsage(self):
+        global df
+        try:
+            self.OutputText.insertPlainText('\n'+ str(df.memory_usage(index=True).sum())+' mb\n')
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+
+    def StorageUsage(self):
+        global df
+        try:
+            self.OutputText.insertPlainText('\n'+ str(float(sys.getsizeof(df)/1000000))+'\n')
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+
+
+    # def mathematicsFeatures(self):
+    #             mathWindow=Toplevel(root, height=100, width=100)
+    #             global resultColumnName
+    #             global firstColumn
+    #             global secondColumn
+    #             resultColumnName=Entry(mathWindow)
+    #             resultColumnName.pack()
+    #             firstColumn=Entry(mathWindow)
+    #             firstColumn.pack()
+    #             secondColumn=Entry(mathWindow)
+    #             secondColumn.pack()
+    #             for text, operation in MATHAMATICS:
+    #                             button=Radiobutton(mathWindow, text=text, variable=v, value=operation).pack()
+    #             enterButton=Button(mathWindow,command=executeMathematics, text="Operate!", highlightbackground="goldenrod2").pack()
+ 
+    def executeMathematics(self):
+                global df
+                global resultColumnName
+                global firstColumn
+                global secondColumn
+                try:
+                    df=df
+                    resultColumnName=resultColumnName.get()
+                    firstColumn=firstColumn.get()
+                    secondColumn=secondColumn.get()
+                    op=v.get()
+                    if op == "Sum":
+                        df[resultColumnName] = df[firstColumn] + df[secondColumn]
+                        self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] + df[{secondColumn}]")
+                    elif op == "Subtract":
+                        df[resultColumnName] = df[firstColumn] - df[secondColumn]
+                        self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] - df[{secondColumn}]")
+                    elif op == "Mulitiply":
+                        df[resultColumnName] = df[firstColumn] * df[secondColumn]
+                        self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] * df[{secondColumn}]")
+                    elif op == "Divide":
+                        df[resultColumnName] = df[firstColumn] / df[secondColumn]
+                        self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] / df[{secondColumn}]")
+                except Exception as e:
+                    self.OutputText.insertPlainText('\n'+str(e)+'\n')
+    
+
+## TO DO:
+## row sum
+## row multi
+## row divide
+## filter for value - see and shape
+## rename columns function
+## none of your entry fields have descriptions to prompt
+## join function
+## union function
+
+
+# def dropPop(self):
+#     replacerPopUp=Toplevel(root, height=100, width=100)
+#     global columnsToDrop
+#     global df
+#     df=df
+#     columnsToDrop=Entry(replacerPopUp).pack()
+#     replacerButton=Button(dropPop, command=dropper, text='Replace', highlightbackground="goldenrod2")
+#     replacerButton.pack()
+
+
+    def dropper(self):
+        global df
+        global columnsToDrop
+        try:
+            df=df.drop(columns=columnsToDrop.get().split(', '))
+        except Exception as e:
+                    self.OutputText.insertPlainText('\n'+str(e)+'\n')
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    DSpanner = QtWidgets.QDialog()
-    ui = Ui_DSpanner()
-    ui.setupUi(DSpanner)
-    DSpanner.show()
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
     sys.exit(app.exec_())
+
 
 
 
