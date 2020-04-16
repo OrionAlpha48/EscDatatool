@@ -9,14 +9,14 @@ import datetime
 import sys, traceback
 import tkinter as tk
 
-class Ui_MainWindow(object):
+class Ui_DSpanner(object):
     def setupUi(self, DSpanner):
         DSpanner.setObjectName("DSpanner")
         DSpanner.resize(1440, 783)
         self.centralwidget = QtWidgets.QWidget(DSpanner)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 1, 711, 771))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 731, 731))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.Outputs = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.Outputs.setContentsMargins(0, 4, 0, 0)
@@ -30,7 +30,8 @@ class Ui_MainWindow(object):
         self.Outputs_Label.setObjectName("Outputs_Label")
         self.Outputs.addWidget(self.Outputs_Label)
         self.CodeSwitch = QtWidgets.QTabWidget(self.verticalLayoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        self.CodeSwitch.setEnabled(True)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.CodeSwitch.sizePolicy().hasHeightForWidth())
@@ -39,44 +40,38 @@ class Ui_MainWindow(object):
         self.Pandas = QtWidgets.QWidget()
         self.Pandas.setObjectName("Pandas")
         self.PandasScrollArea = QtWidgets.QScrollArea(self.Pandas)
-        self.PandasScrollArea.setGeometry(QtCore.QRect(0, 0, 699, 366))
+        self.PandasScrollArea.setGeometry(QtCore.QRect(0, 0, 731, 321))
         self.PandasScrollArea.setWidgetResizable(True)
         self.PandasScrollArea.setObjectName("PandasScrollArea")
         self.PandasScrollAreaWidget = QtWidgets.QWidget()
-        self.PandasScrollAreaWidget.setGeometry(QtCore.QRect(0, 0, 697, 364))
+        self.PandasScrollAreaWidget.setGeometry(QtCore.QRect(0, 0, 729, 319))
         self.PandasScrollAreaWidget.setObjectName("PandasScrollAreaWidget")
         self.PandasCode = QtWidgets.QPlainTextEdit(self.PandasScrollAreaWidget)
-        self.PandasCode.setGeometry(QtCore.QRect(0, 0, 681, 341))
+        self.PandasCode.setGeometry(QtCore.QRect(0, 0, 731, 321))
+        font = QtGui.QFont()
+        font.setFamily("Avenir")
+        font.setPointSize(12)
+        self.PandasCode.setFont(font)
         self.PandasCode.setObjectName("PandasCode")
-        self.PandasScroll = QtWidgets.QScrollBar(self.PandasScrollAreaWidget)
-        self.PandasScroll.setGeometry(QtCore.QRect(680, 0, 16, 341))
-        self.PandasScroll.setFocusPolicy(QtCore.Qt.WheelFocus)
-        self.PandasScroll.setOrientation(QtCore.Qt.Vertical)
-        self.PandasScroll.setObjectName("PandasScroll")
         self.PandasScrollArea.setWidget(self.PandasScrollAreaWidget)
         self.CodeSwitch.addTab(self.Pandas, "")
         self.PySpark = QtWidgets.QWidget()
         self.PySpark.setObjectName("PySpark")
         self.PySparkScrollArea = QtWidgets.QScrollArea(self.PySpark)
-        self.PySparkScrollArea.setGeometry(QtCore.QRect(0, 0, 691, 341))
+        self.PySparkScrollArea.setGeometry(QtCore.QRect(0, 0, 731, 321))
         self.PySparkScrollArea.setWidgetResizable(True)
         self.PySparkScrollArea.setObjectName("PySparkScrollArea")
         self.PySparkScrollAreaWidget = QtWidgets.QWidget()
-        self.PySparkScrollAreaWidget.setGeometry(QtCore.QRect(0, 0, 689, 339))
+        self.PySparkScrollAreaWidget.setGeometry(QtCore.QRect(0, 0, 729, 319))
         self.PySparkScrollAreaWidget.setObjectName("PySparkScrollAreaWidget")
         self.PysparkCode = QtWidgets.QPlainTextEdit(self.PySparkScrollAreaWidget)
-        self.PysparkCode.setGeometry(QtCore.QRect(3, -2, 681, 341))
+        self.PysparkCode.setGeometry(QtCore.QRect(10, 0, 691, 321))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.PysparkCode.sizePolicy().hasHeightForWidth())
         self.PysparkCode.setSizePolicy(sizePolicy)
         self.PysparkCode.setObjectName("PysparkCode")
-        self.PySparkScroll = QtWidgets.QScrollBar(self.PySparkScrollAreaWidget)
-        self.PySparkScroll.setGeometry(QtCore.QRect(670, 0, 16, 321))
-        self.PySparkScroll.setFocusPolicy(QtCore.Qt.WheelFocus)
-        self.PySparkScroll.setOrientation(QtCore.Qt.Vertical)
-        self.PySparkScroll.setObjectName("PySparkScroll")
         self.PySparkScrollArea.setWidget(self.PySparkScrollAreaWidget)
         self.CodeSwitch.addTab(self.PySpark, "")
         self.Outputs.addWidget(self.CodeSwitch)
@@ -90,27 +85,24 @@ class Ui_MainWindow(object):
         self.CheckDataFrame.setIconSize(QtCore.QSize(10, 16))
         self.CheckDataFrame.setObjectName("CheckDataFrame")
         self.Outputs.addWidget(self.CheckDataFrame)
-        self.ScrollPandas = QtWidgets.QScrollArea(self.verticalLayoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        self.frame = QtWidgets.QFrame(self.verticalLayoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ScrollPandas.sizePolicy().hasHeightForWidth())
-        self.ScrollPandas.setSizePolicy(sizePolicy)
-        self.ScrollPandas.setWidgetResizable(True)
-        self.ScrollPandas.setObjectName("ScrollPandas")
-        self.ScollPandasArea = QtWidgets.QWidget()
-        self.ScollPandasArea.setGeometry(QtCore.QRect(0, 0, 697, 343))
-        self.ScollPandasArea.setObjectName("ScollPandasArea")
-        self.OutputText = QtWidgets.QTextEdit(self.ScollPandasArea)
-        self.OutputText.setGeometry(QtCore.QRect(3, -2, 681, 371))
+        sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
+        self.frame.setSizePolicy(sizePolicy)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.OutputText = QtWidgets.QPlainTextEdit(self.frame)
+        self.OutputText.setGeometry(QtCore.QRect(10, 0, 701, 321))
+        font = QtGui.QFont()
+        font.setFamily("Avenir")
+        font.setPointSize(12)
+        self.OutputText.setFont(font)
+        self.OutputText.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
         self.OutputText.setObjectName("OutputText")
-        self.OutputScroll = QtWidgets.QScrollBar(self.ScollPandasArea)
-        self.OutputScroll.setGeometry(QtCore.QRect(680, 0, 16, 361))
-        self.OutputScroll.setFocusPolicy(QtCore.Qt.WheelFocus)
-        self.OutputScroll.setOrientation(QtCore.Qt.Vertical)
-        self.OutputScroll.setObjectName("OutputScroll")
-        self.ScrollPandas.setWidget(self.ScollPandasArea)
-        self.Outputs.addWidget(self.ScrollPandas)
+        self.Outputs.addWidget(self.frame)
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(739, 0, 701, 771))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
@@ -118,7 +110,7 @@ class Ui_MainWindow(object):
         self.Tools.setContentsMargins(0, 0, 0, 0)
         self.Tools.setObjectName("Tools")
         self.ToolsLabel = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ToolsLabel.sizePolicy().hasHeightForWidth())
@@ -138,7 +130,7 @@ class Ui_MainWindow(object):
         self.UtilitiesBox.setSizePolicy(sizePolicy)
         self.UtilitiesBox.setObjectName("UtilitiesBox")
         self.gridLayoutWidget_4 = QtWidgets.QWidget(self.UtilitiesBox)
-        self.gridLayoutWidget_4.setGeometry(QtCore.QRect(-1, 19, 701, 181))
+        self.gridLayoutWidget_4.setGeometry(QtCore.QRect(9, 19, 681, 171))
         self.gridLayoutWidget_4.setObjectName("gridLayoutWidget_4")
         self.UtilitiesLayout = QtWidgets.QGridLayout(self.gridLayoutWidget_4)
         self.UtilitiesLayout.setContentsMargins(0, 0, 0, 0)
@@ -176,7 +168,7 @@ class Ui_MainWindow(object):
         self.CleanBox.setSizePolicy(sizePolicy)
         self.CleanBox.setObjectName("CleanBox")
         self.gridLayoutWidget = QtWidgets.QWidget(self.CleanBox)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(0, 20, 701, 171))
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 20, 681, 171))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
         self.CleanLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.CleanLayout.setContentsMargins(0, 0, 0, 0)
@@ -231,7 +223,7 @@ class Ui_MainWindow(object):
         self.TransformBox.setSizePolicy(sizePolicy)
         self.TransformBox.setObjectName("TransformBox")
         self.gridLayoutWidget_2 = QtWidgets.QWidget(self.TransformBox)
-        self.gridLayoutWidget_2.setGeometry(QtCore.QRect(0, 20, 701, 171))
+        self.gridLayoutWidget_2.setGeometry(QtCore.QRect(10, 20, 681, 171))
         self.gridLayoutWidget_2.setObjectName("gridLayoutWidget_2")
         self.TransformLayout = QtWidgets.QGridLayout(self.gridLayoutWidget_2)
         self.TransformLayout.setContentsMargins(0, 0, 0, 0)
@@ -245,22 +237,6 @@ class Ui_MainWindow(object):
         self.AdvancedMathematicsButton.setSizePolicy(sizePolicy)
         self.AdvancedMathematicsButton.setObjectName("AdvancedMathematicsButton")
         self.TransformLayout.addWidget(self.AdvancedMathematicsButton, 1, 2, 1, 1)
-        self.BasicMathematicsButton = QtWidgets.QToolButton(self.gridLayoutWidget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.BasicMathematicsButton.sizePolicy().hasHeightForWidth())
-        self.BasicMathematicsButton.setSizePolicy(sizePolicy)
-        self.BasicMathematicsButton.setObjectName("BasicMathematicsButton")
-        self.TransformLayout.addWidget(self.BasicMathematicsButton, 0, 2, 1, 1)
-        self.CastDataTypesButton = QtWidgets.QToolButton(self.gridLayoutWidget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.CastDataTypesButton.sizePolicy().hasHeightForWidth())
-        self.CastDataTypesButton.setSizePolicy(sizePolicy)
-        self.CastDataTypesButton.setObjectName("CastDataTypesButton")
-        self.TransformLayout.addWidget(self.CastDataTypesButton, 0, 0, 1, 1)
         self.MeltTransposeDataButton = QtWidgets.QToolButton(self.gridLayoutWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -269,6 +245,22 @@ class Ui_MainWindow(object):
         self.MeltTransposeDataButton.setSizePolicy(sizePolicy)
         self.MeltTransposeDataButton.setObjectName("MeltTransposeDataButton")
         self.TransformLayout.addWidget(self.MeltTransposeDataButton, 0, 1, 1, 1)
+        self.CastDataTypesButton = QtWidgets.QToolButton(self.gridLayoutWidget_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.CastDataTypesButton.sizePolicy().hasHeightForWidth())
+        self.CastDataTypesButton.setSizePolicy(sizePolicy)
+        self.CastDataTypesButton.setObjectName("CastDataTypesButton")
+        self.TransformLayout.addWidget(self.CastDataTypesButton, 0, 0, 1, 1)
+        self.BasicMathematicsButton = QtWidgets.QToolButton(self.gridLayoutWidget_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.BasicMathematicsButton.sizePolicy().hasHeightForWidth())
+        self.BasicMathematicsButton.setSizePolicy(sizePolicy)
+        self.BasicMathematicsButton.setObjectName("BasicMathematicsButton")
+        self.TransformLayout.addWidget(self.BasicMathematicsButton, 0, 2, 1, 1)
         self.SubstituteValuesButton = QtWidgets.QToolButton(self.gridLayoutWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -286,7 +278,7 @@ class Ui_MainWindow(object):
         self.AnalyseBox.setSizePolicy(sizePolicy)
         self.AnalyseBox.setObjectName("AnalyseBox")
         self.gridLayoutWidget_5 = QtWidgets.QWidget(self.AnalyseBox)
-        self.gridLayoutWidget_5.setGeometry(QtCore.QRect(0, 20, 699, 171))
+        self.gridLayoutWidget_5.setGeometry(QtCore.QRect(10, 20, 681, 141))
         self.gridLayoutWidget_5.setObjectName("gridLayoutWidget_5")
         self.AnalyseLayout = QtWidgets.QGridLayout(self.gridLayoutWidget_5)
         self.AnalyseLayout.setContentsMargins(0, 0, 0, 0)
@@ -350,6 +342,7 @@ class Ui_MainWindow(object):
         DSpanner.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(DSpanner)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1440, 22))
+        self.menubar.setNativeMenuBar(False)
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -360,7 +353,6 @@ class Ui_MainWindow(object):
         self.menuCloud_Settings = QtWidgets.QMenu(self.menubar)
         self.menuCloud_Settings.setObjectName("menuCloud_Settings")
         DSpanner.setMenuBar(self.menubar)
-        self.menubar.setNativeMenuBar(False)
         self.statusbar = QtWidgets.QStatusBar(DSpanner)
         self.statusbar.setObjectName("statusbar")
         DSpanner.setStatusBar(self.statusbar)
@@ -400,14 +392,14 @@ class Ui_MainWindow(object):
         self.CodeSwitch.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(DSpanner)
 
-
 #button connections      
         self.CheckDataFrame.clicked.connect(self.checker)
         self.RestoreDFButton.clicked.connect(self.RestoreDF)
         self.SaveDFButton.clicked.connect(self.SaveDF)
         self.ColumnTitlesLowerCaseButton.clicked.connect(self.columnLowerCase)
         self.DropBlankColumnsButton.clicked.connect(self.dropBlankColumns)
-        self.RemoveWhiteSpaceInHeadersButton.clicked.connect(self.stripWhiteSpace)
+        self.RemoveWhiteSpaceInHeadersButton.clicked.connect(self.RemoveSpacesInColumnTitle)
+        self.StripWhiteSpaceInColumnsButton.clicked.connect(self.stripWhiteSpace)
         self.CastDataTypesButton.clicked.connect(self.executeDataCast)
         self.CountRowsButton.clicked.connect(self.RowCount)
         self.PrintDataTypesButton.clicked.connect(self.printDatatypes)
@@ -415,8 +407,11 @@ class Ui_MainWindow(object):
         self.FindNullsButton.clicked.connect(self.executefindnulls)
         self.StorageUsageEstimateButton.clicked.connect(self.StorageUsage)
 
+
 #menu connections
         self.menuImport_Data.triggered.connect(self.openCSV)
+
+
 
     def retranslateUi(self, DSpanner):
         _translate = QtCore.QCoreApplication.translate
@@ -425,11 +420,6 @@ class Ui_MainWindow(object):
         self.CodeSwitch.setTabText(self.CodeSwitch.indexOf(self.Pandas), _translate("DSpanner", "Pandas"))
         self.CodeSwitch.setTabText(self.CodeSwitch.indexOf(self.PySpark), _translate("DSpanner", "PySpark"))
         self.CheckDataFrame.setText(_translate("DSpanner", "Check Data Frame"))
-        self.OutputText.setHtml(_translate("DSpanner", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-        "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-        "p, li { white-space: pre-wrap; }\n"
-        "</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
-        "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.ToolsLabel.setText(_translate("DSpanner", "Tools"))
         self.UtilitiesBox.setTitle(_translate("DSpanner", "Utilities"))
         self.MakeCSVButton.setText(_translate("DSpanner", "Make CSV"))
@@ -443,9 +433,9 @@ class Ui_MainWindow(object):
         self.StripWhiteSpaceInColumnsButton.setText(_translate("DSpanner", "Strip White Space in Columns"))
         self.TransformBox.setTitle(_translate("DSpanner", "Transform"))
         self.AdvancedMathematicsButton.setText(_translate("DSpanner", "Advanced Mathematic Functions"))
-        self.BasicMathematicsButton.setText(_translate("DSpanner", "Basic Mathematics"))
-        self.CastDataTypesButton.setText(_translate("DSpanner", "Cast Data Types"))
         self.MeltTransposeDataButton.setText(_translate("DSpanner", "Melt/Transpose Data"))
+        self.CastDataTypesButton.setText(_translate("DSpanner", "Cast Data Types"))
+        self.BasicMathematicsButton.setText(_translate("DSpanner", "Basic Mathematics"))
         self.SubstituteValuesButton.setText(_translate("DSpanner", "Substitute Values"))
         self.AnalyseBox.setTitle(_translate("DSpanner", "Analyse"))
         self.CountRowsButton.setText(_translate("DSpanner", "Count Rows"))
@@ -469,14 +459,16 @@ class Ui_MainWindow(object):
         self.Quit.setText(_translate("DSpanner", "Quit"))
 
 
-        
+
 
     ##Functions start here##
     def checker(self):
         try:
             self.OutputText.insertPlainText("Data as at: " + str(datetime.datetime.now()) +'\n' + df.to_string() + '\n\n')
+            self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
     """
     def reader():
@@ -509,8 +501,10 @@ class Ui_MainWindow(object):
             df=df
             df=df.loc[:, ~df.columns.str.contains('^Unnamed')]
             self.PandasCode.insertPlainText("df=df.loc[:, ~df.columns.str.contains('^Unnamed')]")
+            self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
      
     def executeDataCast(self):
         global df
@@ -520,8 +514,10 @@ class Ui_MainWindow(object):
             column=nameofColumnToChangeDataType.get()
             df[column] = df[column].astype(dataType)
             self.PandasCode.insertPlainText( f"\ndf[{column}] = df[{column}].astype[{dataType}]")
+            self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
  
     def executefindnulls(self):
         global dfnulls
@@ -532,8 +528,10 @@ class Ui_MainWindow(object):
             dfnulls=df[df[column].isna()]
             self.OutputText.insertPlainText(dfnulls.to_string())
             self.PandasCode.insertPlainText(f"\ndf=df[df[{column}].isna()]")
+            self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
       
                     
 
@@ -555,43 +553,53 @@ class Ui_MainWindow(object):
                 value_vars={pivotWithColumns}.split(', '),
                 value_name={nameOfRowValues},
                 var_name={nameOfColumnValues})""")
+            self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
     # you can easily make a xls version of this, remember to alter the inital dir
     def openCSV(self):
         try:
-            path = QtWidgets.QFileDialog.getOpenFileName(None, "Select CSV", "/Users/Orion 1/Desktop")[0]
+            path = QtWidgets.QFileDialog.getOpenFileName(None, "Select CSV", "/Desktop")[0]
             global df
             df=pd.read_csv(filepath_or_buffer=path)
+            self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
     # def openxls():
     #     try:
     #         path=filedialog.askopenfilename(initialdir="/Desktop",title="Select a file")
     #         global df
     #         df=pd.read_excel(filepath_or_buffer=str(path))
+    #self.OutputText.repaint()
     #     except Exception as e:
     #         self.OutputText.insertPlainText('\n'+str(e)+'\n')
+    #self.OutputText.repaint()
 
         
     # ## TO DO: let them name their results themselves, not you. 
     # def makecsv():
     #     try:
     #         df.to_csv(path_or_buf=str(path)+ "results.csv")
+    #self.OutputText.repaint()
     #     except Exception as e:
     #                     self.OutputText.insertPlainText('\n'+str(e)+'\n')   
+    #self.OutputText.repaint()
 
 
     def printDatatypes(self):
         global df
         try:
             df=df
-            output.insert('1.0',(df.dtypes))
+            self.OutputText.insertPlainText(str(df.dtypes))
             self.PandasCode.insertPlainText(f"""\n(df.dtypes)""")
+            self.OutputText.repaint()
         except Exception as e:
                     self.OutputText.insertPlainText('\n'+str(e)+'\n')
+                    self.OutputText.repaint()
     
     def columnLowerCase(self):
         global df
@@ -599,17 +607,21 @@ class Ui_MainWindow(object):
             df=df
             df.columns=map(str.lower, df.columns)
             self.PandasCode.insertPlainText(f"""\ndf.columns=map(str.lower, df.columns)""")
+            self.OutputText.repaint()
         except Exception as e:
                         self.OutputText.insertPlainText('\n'+str(e)+'\n')
+                        self.OutputText.repaint()
     
-    def columnRemoveSpaces(self):
+    def RemoveSpacesInColumnTitle(self):
         global df
         try:
             df=df
             df.columns=df.columns.str.replace(' ', '_')
             self.PandasCode.insertPlainText(f"""\ndf.columns=df.columns.str.replace(' ', '_')""")
+            self.OutputText.repaint()
         except Exception as e:
                         self.OutputText.insertPlainText('\n'+str(e)+'\n')
+                        self.OutputText.repaint()
 
 ## TO DO: This is cute, but what if its the sum of two columns per row.
 ## probably will never need the sum of all
@@ -620,8 +632,10 @@ class Ui_MainWindow(object):
             res=df.groupby([groupByColumns.get()])[columnToSum.get()].sum()
             self.OutputText.insertPlainText(res)
             self.PandasCode.insertPlainText(f"""res=df.groupby([{groupByColumns}.get()])[{columnToSum}.get()].sum()""")
+            self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
 
     def stripWhiteSpace(self):
@@ -632,8 +646,10 @@ class Ui_MainWindow(object):
             df[columnToStrip] = df[columnToStrip].str.strip()
             self.OutputText.insertPlainText(df.to_string)
             self.PandasCode.insertPlainText(f"""df[{columnToStrip}] = df[{columnToStrip}].str.strip()""")
+            self.OutputText.repaint()
         except Exception as e:
                     self.OutputText.insertPlainText('\n'+str(e)+'\n')
+                    self.OutputText.repaint()
 
 # def summerPop(self):
 #     summerPopUp=Toplevel(root, height=100, width=100)
@@ -671,8 +687,10 @@ class Ui_MainWindow(object):
             df[columnToRep.get()] = df[columnToRep.get()].replace(valuetoReplace.get(), replaceWith.get())
             self.OutputText.insertPlainText(df.to_string)
             self.PandasCode.insertPlainText(f"""df[{columnToRep.get()}] = df[{columnToRep.get()}].replace({valuetoReplace.get()}, {replaceWith.get()})""")
+            self.OutputText.repaint()
         except Exception as e:
                     self.OutputText.insertPlainText('\n'+str(e)+'\n')
+                    self.OutputText.repaint()
 
 # def replacerPop(self):
 #     replacerPopUp=Toplevel(root, height=100, width=100)
@@ -695,37 +713,47 @@ class Ui_MainWindow(object):
         global dfsaved
         try:
             dfsaved=df
+            self.OutputText.repaint()
         except Exception as e:
                     self.OutputText.insertPlainText('\n'+str(e)+'\n')
+                    self.OutputText.repaint()
 
     def RestoreDF(self):
         global df
         global dfsaved
         try:
             df=dfsaved
+            self.OutputText.repaint()
         except Exception as e:
                     self.OutputText.insertPlainText('\n'+str(e)+'\n')
+                    self.OutputText.repaint()
 
     def RowCount(self):
         global df
         try:
-            self.OutputText.insertPlainText(len(df.index))
+            self.OutputText.insertPlainText(str(len(df.index)))
+            self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
     def memoryUsage(self):
         global df
         try:
             self.OutputText.insertPlainText('\n'+ str(df.memory_usage(index=True).sum())+' mb\n')
+            self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
     def StorageUsage(self):
         global df
         try:
             self.OutputText.insertPlainText('\n'+ str(float(sys.getsizeof(df)/1000000))+'\n')
+            self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
 
     # def mathematicsFeatures(self):
@@ -766,8 +794,10 @@ class Ui_MainWindow(object):
                     elif op == "Divide":
                         df[resultColumnName] = df[firstColumn] / df[secondColumn]
                         self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] / df[{secondColumn}]")
+                        self.OutputText.repaint()
                 except Exception as e:
                     self.OutputText.insertPlainText('\n'+str(e)+'\n')
+                    self.OutputText.repaint()
     
 
 ## TO DO:
@@ -796,19 +826,20 @@ class Ui_MainWindow(object):
         global columnsToDrop
         try:
             df=df.drop(columns=columnsToDrop.get().split(', '))
+            self.OutputText.repaint()
         except Exception as e:
                     self.OutputText.insertPlainText('\n'+str(e)+'\n')
+                    self.OutputText.repaint()
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    DSpanner = QtWidgets.QMainWindow()
+    ui = Ui_DSpanner()
+    ui.setupUi(DSpanner)
+    DSpanner.show()
     sys.exit(app.exec_())
-
 
 
 
