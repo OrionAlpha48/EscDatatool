@@ -1,4 +1,7 @@
+from PyQt5.Qt import *
+from PyQt5.QtWidgets import QInputDialog, QLineEdit, QDialog, QApplication
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 #Imports
 import pandas as pd
 import numpy as np
@@ -7,17 +10,31 @@ import io
 import os
 import datetime
 import sys, traceback
-import tkinter as tk
+from sumWindow import Ui_Summer
+from dataTypeWindow import Ui_DataTypeWindow
 
-class Ui_DSpanner(object):
-    def setupUi(self, DSpanner):
-        DSpanner.setObjectName("DSpanner")
-        DSpanner.resize(1440, 783)
-        self.centralwidget = QtWidgets.QWidget(DSpanner)
+class Ui_DataSpanner(QMainWindow):
+    def sumColumnWindowOpen(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_Summer()
+        self.ui.setupUi(self.window, df, OutputText)
+        self.window.show()
+
+    # def dataTypeWindowOpen(self):
+    #     self.window = QtWidgets.QMainWindow()
+    #     self.ui = Ui_DataTypeWindow()
+    #     self.ui.setupUi(self.window)
+    #     self.window.show()
+
+    def setupUi(self, DataSpanner):
+        DataSpanner.setObjectName("DataSpanner")
+        DataSpanner.resize(1440, 783)
+        self.centralwidget = QtWidgets.QWidget(DataSpanner)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 731, 731))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        
         self.Outputs = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.Outputs.setContentsMargins(0, 4, 0, 0)
         self.Outputs.setObjectName("Outputs")
@@ -339,8 +356,8 @@ class Ui_DSpanner(object):
         self.MemoryUsageEstimateButton.raise_()
         self.StorageUsageEstimateButton.raise_()
         self.Tools.addWidget(self.AnalyseBox)
-        DSpanner.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(DSpanner)
+        DataSpanner.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(DataSpanner)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1440, 22))
         self.menubar.setNativeMenuBar(False)
         self.menubar.setObjectName("menubar")
@@ -352,27 +369,27 @@ class Ui_DSpanner(object):
         self.menuExport_Data.setObjectName("menuExport_Data")
         self.menuCloud_Settings = QtWidgets.QMenu(self.menubar)
         self.menuCloud_Settings.setObjectName("menuCloud_Settings")
-        DSpanner.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(DSpanner)
+        DataSpanner.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(DataSpanner)
         self.statusbar.setObjectName("statusbar")
-        DSpanner.setStatusBar(self.statusbar)
-        self.CredentialsAWS = QtWidgets.QAction(DSpanner)
+        DataSpanner.setStatusBar(self.statusbar)
+        self.CredentialsAWS = QtWidgets.QAction(DataSpanner)
         self.CredentialsAWS.setObjectName("CredentialsAWS")
-        self.CredentialsAzure = QtWidgets.QAction(DSpanner)
+        self.CredentialsAzure = QtWidgets.QAction(DataSpanner)
         self.CredentialsAzure.setObjectName("CredentialsAzure")
-        self.ExportCSV = QtWidgets.QAction(DSpanner)
+        self.ExportCSV = QtWidgets.QAction(DataSpanner)
         self.ExportCSV.setObjectName("ExportCSV")
-        self.ExportPSV = QtWidgets.QAction(DSpanner)
+        self.ExportPSV = QtWidgets.QAction(DataSpanner)
         self.ExportPSV.setObjectName("ExportPSV")
-        self.ExportExcel = QtWidgets.QAction(DSpanner)
+        self.ExportExcel = QtWidgets.QAction(DataSpanner)
         self.ExportExcel.setObjectName("ExportExcel")
-        self.ExportText = QtWidgets.QAction(DSpanner)
+        self.ExportText = QtWidgets.QAction(DataSpanner)
         self.ExportText.setObjectName("ExportText")
-        self.ImportCSV = QtWidgets.QAction(DSpanner)
+        self.ImportCSV = QtWidgets.QAction(DataSpanner)
         self.ImportCSV.setObjectName("ImportCSV")
-        self.ImportExcel = QtWidgets.QAction(DSpanner)
+        self.ImportExcel = QtWidgets.QAction(DataSpanner)
         self.ImportExcel.setObjectName("ImportExcel")
-        self.Quit = QtWidgets.QAction(DSpanner)
+        self.Quit = QtWidgets.QAction(DataSpanner)
         self.Quit.setObjectName("Quit")
         self.menuFile.addAction(self.Quit)
         self.menuImport_Data.addAction(self.ImportCSV)
@@ -387,10 +404,11 @@ class Ui_DSpanner(object):
         self.menubar.addAction(self.menuImport_Data.menuAction())
         self.menubar.addAction(self.menuExport_Data.menuAction())
         self.menubar.addAction(self.menuCloud_Settings.menuAction())
+        self.w = None
 
-        self.retranslateUi(DSpanner)
+        self.retranslateUi(DataSpanner)
         self.CodeSwitch.setCurrentIndex(1)
-        QtCore.QMetaObject.connectSlotsByName(DSpanner)
+        QtCore.QMetaObject.connectSlotsByName(DataSpanner)
 
 #button connections      
         self.CheckDataFrame.clicked.connect(self.checker)
@@ -400,68 +418,68 @@ class Ui_DSpanner(object):
         self.DropBlankColumnsButton.clicked.connect(self.dropBlankColumns)
         self.RemoveWhiteSpaceInHeadersButton.clicked.connect(self.RemoveSpacesInColumnTitle)
         self.StripWhiteSpaceInColumnsButton.clicked.connect(self.stripWhiteSpace)
-        self.CastDataTypesButton.clicked.connect(self.executeDataCast)
+        #self.CastDataTypesButton.clicked.connect(self.dataTypeWindowOpen)
         self.CountRowsButton.clicked.connect(self.RowCount)
         self.PrintDataTypesButton.clicked.connect(self.printDatatypes)
         self.MemoryUsageEstimateButton.clicked.connect(self.memoryUsage)
         self.FindNullsButton.clicked.connect(self.executefindnulls)
         self.StorageUsageEstimateButton.clicked.connect(self.StorageUsage)
+        self.SumColumnButton.clicked.connect(self.sumColumnWindowOpen)
 
 
 #menu connections
-        self.menuImport_Data.triggered.connect(self.openCSV)
+        self.ImportCSV.triggered.connect(self.openCSV)
+        self.ImportExcel.triggered.connect(self.openxls)
 
 
 
-    def retranslateUi(self, DSpanner):
+    def retranslateUi(self, DataSpanner):
         _translate = QtCore.QCoreApplication.translate
-        DSpanner.setWindowTitle(_translate("DSpanner", "MainWindow"))
-        self.Outputs_Label.setText(_translate("DSpanner", "Outputs"))
-        self.CodeSwitch.setTabText(self.CodeSwitch.indexOf(self.Pandas), _translate("DSpanner", "Pandas"))
-        self.CodeSwitch.setTabText(self.CodeSwitch.indexOf(self.PySpark), _translate("DSpanner", "PySpark"))
-        self.CheckDataFrame.setText(_translate("DSpanner", "Check Data Frame"))
-        self.ToolsLabel.setText(_translate("DSpanner", "Tools"))
-        self.UtilitiesBox.setTitle(_translate("DSpanner", "Utilities"))
-        self.MakeCSVButton.setText(_translate("DSpanner", "Make CSV"))
-        self.RestoreDFButton.setText(_translate("DSpanner", "Restore DF"))
-        self.SaveDFButton.setText(_translate("DSpanner", "Save DF"))
-        self.CleanBox.setTitle(_translate("DSpanner", "Clean"))
-        self.RemoveValueInColumnButton.setText(_translate("DSpanner", "Remove Value in Column"))
-        self.ColumnTitlesLowerCaseButton.setText(_translate("DSpanner", "Column Titles Lower Case"))
-        self.DropBlankColumnsButton.setText(_translate("DSpanner", "Drop Blank Columns"))
-        self.RemoveWhiteSpaceInHeadersButton.setText(_translate("DSpanner", "Remove White Space In Headers"))
-        self.StripWhiteSpaceInColumnsButton.setText(_translate("DSpanner", "Strip White Space in Columns"))
-        self.TransformBox.setTitle(_translate("DSpanner", "Transform"))
-        self.AdvancedMathematicsButton.setText(_translate("DSpanner", "Advanced Mathematic Functions"))
-        self.MeltTransposeDataButton.setText(_translate("DSpanner", "Melt/Transpose Data"))
-        self.CastDataTypesButton.setText(_translate("DSpanner", "Cast Data Types"))
-        self.BasicMathematicsButton.setText(_translate("DSpanner", "Basic Mathematics"))
-        self.SubstituteValuesButton.setText(_translate("DSpanner", "Substitute Values"))
-        self.AnalyseBox.setTitle(_translate("DSpanner", "Analyse"))
-        self.CountRowsButton.setText(_translate("DSpanner", "Count Rows"))
-        self.SumColumnButton.setText(_translate("DSpanner", "Sum Column"))
-        self.PrintDataTypesButton.setText(_translate("DSpanner", "Print Data Types"))
-        self.MemoryUsageEstimateButton.setText(_translate("DSpanner", "Memory Usage Estimate"))
-        self.FindNullsButton.setText(_translate("DSpanner", "Find Nulls"))
-        self.StorageUsageEstimateButton.setText(_translate("DSpanner", "Storage Usage Estimate"))
-        self.menuFile.setTitle(_translate("DSpanner", "File"))
-        self.menuImport_Data.setTitle(_translate("DSpanner", "Import Data"))
-        self.menuExport_Data.setTitle(_translate("DSpanner", "Export Data"))
-        self.menuCloud_Settings.setTitle(_translate("DSpanner", "Cloud Settings"))
-        self.CredentialsAWS.setText(_translate("DSpanner", "AWS"))
-        self.CredentialsAzure.setText(_translate("DSpanner", "Azure"))
-        self.ExportCSV.setText(_translate("DSpanner", "CSV"))
-        self.ExportPSV.setText(_translate("DSpanner", "PSV"))
-        self.ExportExcel.setText(_translate("DSpanner", "Excel"))
-        self.ExportText.setText(_translate("DSpanner", "Text"))
-        self.ImportCSV.setText(_translate("DSpanner", "CSV"))
-        self.ImportExcel.setText(_translate("DSpanner", "Excel"))
-        self.Quit.setText(_translate("DSpanner", "Quit"))
+        DataSpanner.setWindowTitle(_translate("DataSpanner", "DataSpanner"))
+        self.Outputs_Label.setText(_translate("DataSpanner", "Outputs"))
+        self.CodeSwitch.setTabText(self.CodeSwitch.indexOf(self.Pandas), _translate("DataSpanner", "Pandas"))
+        self.CodeSwitch.setTabText(self.CodeSwitch.indexOf(self.PySpark), _translate("DataSpanner", "PySpark"))
+        self.CheckDataFrame.setText(_translate("DataSpanner", "Check Data Frame"))
+        self.ToolsLabel.setText(_translate("DataSpanner", "Tools"))
+        self.UtilitiesBox.setTitle(_translate("DataSpanner", "Utilities"))
+        self.MakeCSVButton.setText(_translate("DataSpanner", "Make CSV"))
+        self.RestoreDFButton.setText(_translate("DataSpanner", "Restore DF"))
+        self.SaveDFButton.setText(_translate("DataSpanner", "Save DF"))
+        self.CleanBox.setTitle(_translate("DataSpanner", "Clean"))
+        self.RemoveValueInColumnButton.setText(_translate("DataSpanner", "Remove Value in Column"))
+        self.ColumnTitlesLowerCaseButton.setText(_translate("DataSpanner", "Column Titles Lower Case"))
+        self.DropBlankColumnsButton.setText(_translate("DataSpanner", "Drop Blank Columns"))
+        self.RemoveWhiteSpaceInHeadersButton.setText(_translate("DataSpanner", "Remove White Space In Headers"))
+        self.StripWhiteSpaceInColumnsButton.setText(_translate("DataSpanner", "Strip White Space in Columns"))
+        self.TransformBox.setTitle(_translate("DataSpanner", "Transform"))
+        self.AdvancedMathematicsButton.setText(_translate("DataSpanner", "Advanced Mathematic Functions"))
+        self.MeltTransposeDataButton.setText(_translate("DataSpanner", "Melt/Transpose Data"))
+        self.CastDataTypesButton.setText(_translate("DataSpanner", "Cast Data Types"))
+        self.BasicMathematicsButton.setText(_translate("DataSpanner", "Basic Mathematics"))
+        self.SubstituteValuesButton.setText(_translate("DataSpanner", "Substitute Values"))
+        self.AnalyseBox.setTitle(_translate("DataSpanner", "Analyse"))
+        self.CountRowsButton.setText(_translate("DataSpanner", "Count Rows"))
+        self.SumColumnButton.setText(_translate("DataSpanner", "Sum Column"))
+        self.PrintDataTypesButton.setText(_translate("DataSpanner", "Print Data Types"))
+        self.MemoryUsageEstimateButton.setText(_translate("DataSpanner", "Memory Usage Estimate"))
+        self.FindNullsButton.setText(_translate("DataSpanner", "Find Nulls"))
+        self.StorageUsageEstimateButton.setText(_translate("DataSpanner", "Storage Usage Estimate"))
+        self.menuFile.setTitle(_translate("DataSpanner", "File"))
+        self.menuImport_Data.setTitle(_translate("DataSpanner", "Import Data"))
+        self.menuExport_Data.setTitle(_translate("DataSpanner", "Export Data"))
+        self.menuCloud_Settings.setTitle(_translate("DataSpanner", "Cloud Settings"))
+        self.CredentialsAWS.setText(_translate("DataSpanner", "AWS"))
+        self.CredentialsAzure.setText(_translate("DataSpanner", "Azure"))
+        self.ExportCSV.setText(_translate("DataSpanner", "CSV"))
+        self.ExportPSV.setText(_translate("DataSpanner", "PSV"))
+        self.ExportExcel.setText(_translate("DataSpanner", "Excel"))
+        self.ExportText.setText(_translate("DataSpanner", "Text"))
+        self.ImportCSV.setText(_translate("DataSpanner", "CSV"))
+        self.ImportExcel.setText(_translate("DataSpanner", "Excel"))
+        self.Quit.setText(_translate("DataSpanner", "Quit"))
 
 
 
-
-    ##Functions start here##
     def checker(self):
         try:
             self.OutputText.insertPlainText("Data as at: " + str(datetime.datetime.now()) +'\n' + df.to_string() + '\n\n')
@@ -469,32 +487,7 @@ class Ui_DSpanner(object):
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
             self.OutputText.repaint()
-
-    """
-    def reader():
-        credFNameEntry.delete('1.0', END)
-        credEntry.delete('1.0', END)
-        global credFName
-        credFName=filedialog.askopenfilename(initialdir=r"")
-        credFNameEntry.insert(END, credFName)
-        with open(credFName, "r") as f:
-                        credEntry.insert(END, f.read())
-     
-    def writer():
-        fileName=credFNameEntry.get('1.0', END)
-        with open(fileName.rstrip(), 'w') as cred_obj:
-                        cred_obj.write(credEntry.get('1.0', 'end-1c'))
-        cred_obj.close()
-     
-    def S3BucketData():
-        global df
-        targetObject=s3_client.get_object(Bucket=bucketEntry.get('1.0', 'end-1c'), Key=keyEntry.get('1.0', 'end-1c'))['Body'].read()
-        if sheetEntry.get('1.0', 'end-1c') == '':
-                        df=pd.read_excel(io.BytesIO(targetObject), encoding='utf-8')
-        else:
-                        df=pd.read_excel(io.BytesIO(targetObject), encoding='utf-8', sheet_name=sheetEntry.get('1.0', 'end-1c'))
-    """               
-     
+    
     def dropBlankColumns(self):
         global df
         try:
@@ -506,18 +499,7 @@ class Ui_DSpanner(object):
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
             self.OutputText.repaint()
      
-    def executeDataCast(self):
-        global df
-        try:
-            df=df
-            dataType=v.get()
-            column=nameofColumnToChangeDataType.get()
-            df[column] = df[column].astype(dataType)
-            self.PandasCode.insertPlainText( f"\ndf[{column}] = df[{column}].astype[{dataType}]")
-            self.OutputText.repaint()
-        except Exception as e:
-            self.OutputText.insertPlainText('\n'+str(e)+'\n')
-            self.OutputText.repaint()
+    
  
     def executefindnulls(self):
         global dfnulls
@@ -569,15 +551,15 @@ class Ui_DSpanner(object):
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
             self.OutputText.repaint()
 
-    # def openxls():
-    #     try:
-    #         path=filedialog.askopenfilename(initialdir="/Desktop",title="Select a file")
-    #         global df
-    #         df=pd.read_excel(filepath_or_buffer=str(path))
-    #self.OutputText.repaint()
-    #     except Exception as e:
-    #         self.OutputText.insertPlainText('\n'+str(e)+'\n')
-    #self.OutputText.repaint()
+    def openxls(self):
+        try:
+            path = QtWidgets.QFileDialog.getOpenFileName(None, "xls", "/Desktop")[0]
+            global df
+            df=pd.read_excel(filepath_or_buffer=str(path))
+            self.OutputText.repaint()
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
         
     # ## TO DO: let them name their results themselves, not you. 
@@ -625,17 +607,7 @@ class Ui_DSpanner(object):
 
 ## TO DO: This is cute, but what if its the sum of two columns per row.
 ## probably will never need the sum of all
-    def SummOp(self):
-        global df
-        try:
-            df=df
-            res=df.groupby([groupByColumns.get()])[columnToSum.get()].sum()
-            self.OutputText.insertPlainText(res)
-            self.PandasCode.insertPlainText(f"""res=df.groupby([{groupByColumns}.get()])[{columnToSum}.get()].sum()""")
-            self.OutputText.repaint()
-        except Exception as e:
-            self.OutputText.insertPlainText('\n'+str(e)+'\n')
-            self.OutputText.repaint()
+    
 
 
     def stripWhiteSpace(self):
@@ -651,33 +623,7 @@ class Ui_DSpanner(object):
                     self.OutputText.insertPlainText('\n'+str(e)+'\n')
                     self.OutputText.repaint()
 
-# def summerPop(self):
-#     summerPopUp=Toplevel(root, height=100, width=100)
-#     global groupByColumns
-#     global df
-#     global columnToSum
-#     df=df
-#     groupByColumns=Entry(summerPopUp)
-#     groupByColumns.insert(END, 'Group by Columns')
-#     columnToSum=Entry(summerPopUp)
-#     columnToSum.insert(END, 'Column to Sum')
-#     groupByColumns.grid(row=0, column=0)
-#     columnToSum.grid(row=1, column=0)
-#     SummColumnButton=Button(summerPopUp, command=SummOp, text='Sum Column', highlightbackground="goldenrod2")
-#     SummColumnButton.grid(row=2, column=0, pady=10, sticky= 'ew')
-
-
-# def stripPop(self):
-#     stripPopUp=Toplevel(root, height=100, width=100)
-#     global columnToStrip
-#     global df
-#     df=df
-#     columnsToStrip=Entry(stripPopUp)
-#     columnsToStrip.grid(row=0, column=0)
-#     stripColumnButton=Button(stripPopUp, command=stripWhiteSpace, text='strip White Space', highlightbackground="goldenrod2")
-#     stripColumnButton.grid(row=1, column=0, pady=10, sticky= 'ew')
-
-
+    
     def replacer(self):
         global df
         global valuetoReplace
@@ -725,13 +671,13 @@ class Ui_DSpanner(object):
             df=dfsaved
             self.OutputText.repaint()
         except Exception as e:
-                    self.OutputText.insertPlainText('\n'+str(e)+'\n')
-                    self.OutputText.repaint()
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
     def RowCount(self):
         global df
         try:
-            self.OutputText.insertPlainText(str(len(df.index)))
+            self.OutputText.insertPlainText('\n'+str(len(df.index)+'\n'))
             self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
@@ -772,33 +718,58 @@ class Ui_DSpanner(object):
     #             enterButton=Button(mathWindow,command=executeMathematics, text="Operate!", highlightbackground="goldenrod2").pack()
  
     def executeMathematics(self):
-                global df
-                global resultColumnName
-                global firstColumn
-                global secondColumn
-                try:
-                    df=df
-                    resultColumnName=resultColumnName.get()
-                    firstColumn=firstColumn.get()
-                    secondColumn=secondColumn.get()
-                    op=v.get()
-                    if op == "Sum":
-                        df[resultColumnName] = df[firstColumn] + df[secondColumn]
-                        self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] + df[{secondColumn}]")
-                    elif op == "Subtract":
-                        df[resultColumnName] = df[firstColumn] - df[secondColumn]
-                        self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] - df[{secondColumn}]")
-                    elif op == "Mulitiply":
-                        df[resultColumnName] = df[firstColumn] * df[secondColumn]
-                        self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] * df[{secondColumn}]")
-                    elif op == "Divide":
-                        df[resultColumnName] = df[firstColumn] / df[secondColumn]
-                        self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] / df[{secondColumn}]")
-                        self.OutputText.repaint()
-                except Exception as e:
-                    self.OutputText.insertPlainText('\n'+str(e)+'\n')
-                    self.OutputText.repaint()
-    
+        global df
+        global resultColumnName
+        global firstColumn
+        global secondColumn
+        try:
+            df=df
+            resultColumnName=resultColumnName.get()
+            firstColumn=firstColumn.get()
+            secondColumn=secondColumn.get()
+            op=v.get()
+            if op == "Sum":
+                df[resultColumnName] = df[firstColumn] + df[secondColumn]
+                self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] + df[{secondColumn}]")
+            elif op == "Subtract":
+                df[resultColumnName] = df[firstColumn] - df[secondColumn]
+                self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] - df[{secondColumn}]")
+            elif op == "Mulitiply":
+                df[resultColumnName] = df[firstColumn] * df[secondColumn]
+                self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] * df[{secondColumn}]")
+            elif op == "Divide":
+                df[resultColumnName] = df[firstColumn] / df[secondColumn]
+                self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] / df[{secondColumn}]")
+                self.OutputText.repaint()
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
+
+
+
+# def reader():
+#     credFNameEntry.delete('1.0', END)
+#     credEntry.delete('1.0', END)
+#     global credFName
+#     credFName=filedialog.askopenfilename(initialdir=r"")
+#     credFNameEntry.insert(END, credFName)
+#     with open(credFName, "r") as f:
+#                     credEntry.insert(END, f.read())
+ 
+# def writer():
+#     fileName=credFNameEntry.get('1.0', END)
+#     with open(fileName.rstrip(), 'w') as cred_obj:
+#                     cred_obj.write(credEntry.get('1.0', 'end-1c'))
+#     cred_obj.close()
+ 
+# def S3BucketData():
+#     global df
+#     targetObject=s3_client.get_object(Bucket=bucketEntry.get('1.0', 'end-1c'), Key=keyEntry.get('1.0', 'end-1c'))['Body'].read()
+#     if sheetEntry.get('1.0', 'end-1c') == '':
+#                     df=pd.read_excel(io.BytesIO(targetObject), encoding='utf-8')
+#     else:
+#                     df=pd.read_excel(io.BytesIO(targetObject), encoding='utf-8', sheet_name=sheetEntry.get('1.0', 'end-1c'))
+
 
 ## TO DO:
 ## row sum
@@ -820,6 +791,15 @@ class Ui_DSpanner(object):
 #     replacerButton=Button(dropPop, command=dropper, text='Replace', highlightbackground="goldenrod2")
 #     replacerButton.pack()
 
+# def stripPop(self):
+#     stripPopUp=Toplevel(root, height=100, width=100)
+#     global columnToStrip
+#     global df
+#     df=df
+#     columnsToStrip=Entry(stripPopUp)
+#     columnsToStrip.grid(row=0, column=0)
+#     stripColumnButton=Button(stripPopUp, command=stripWhiteSpace, text='strip White Space', highlightbackground="goldenrod2")
+#     stripColumnButton.grid(row=1, column=0, pady=10, sticky= 'ew')
 
     def dropper(self):
         global df
@@ -832,13 +812,14 @@ class Ui_DSpanner(object):
                     self.OutputText.repaint()
 
 
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    DSpanner = QtWidgets.QMainWindow()
-    ui = Ui_DSpanner()
-    ui.setupUi(DSpanner)
-    DSpanner.show()
+    DataSpanner = QtWidgets.QMainWindow()
+    ui = Ui_DataSpanner()
+    ui.setupUi(DataSpanner)
+    DataSpanner.show()
     sys.exit(app.exec_())
 
 
