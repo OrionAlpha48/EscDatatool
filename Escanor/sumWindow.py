@@ -1,12 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file '/Users/Orion 1/Desktop/sumColumnWindow.ui'
-#
-# Created by: PyQt5 UI code generator 5.14.2
-#
-# WARNING! All changes made in this file will be lost!
-
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 import pandas as pd
 
@@ -14,7 +5,7 @@ import pandas as pd
 class Ui_Summer(QtWidgets.QWidget):
     
     resultSignal = QtCore.pyqtSignal(str)
-    dfSignal = QtCore.pyqtSignal(pd.DataFrame)
+    dfSignalSum = QtCore.pyqtSignal(pd.DataFrame)
 
     def setupUi(self, sumColumnWindow, df, OutputText):
         global dftosum
@@ -51,15 +42,10 @@ class Ui_Summer(QtWidgets.QWidget):
 
     def SummOp(self):
         try:
-            #print(df)
             groupCol = str(self.groupByColumns.text())
             sumCol = str(self.columnToSum.text())
             res=dftosum.groupby([groupCol])[sumCol].sum()
-            self.dfSignal.emit(res.to_frame())
-            #OutputText.insertPlainText(res)
-            #Ui_DSpanner.PandasCode.insertPlainText(f"""res=df.groupby([{groupByColumns}])[{columnToSum}].sum()""")
-            #OutputText.repaint()
-            #return res
+            self.dfSignalSum.emit(res.to_frame())
         except Exception as e:
             self.resultSignal.emit('\n'+str(e)+'\n')
 

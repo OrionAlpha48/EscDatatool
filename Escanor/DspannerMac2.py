@@ -434,13 +434,15 @@ class Ui_DataSpanner(QMainWindow):
         self.ui = Ui_Summer()
         self.ui.setupUi(self.window, df, self.OutputText)
         self.ui.resultSignal.connect(self.updateOutput)
-        self.ui.dfSignal.connect(self.updateDF)
+        self.ui.dfSignalSum.connect(self.updateDF)
         self.window.show()
 
     def dataTypeWindowOpen(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_DataTypeWindow()
-        self.ui.setupUi(self.window)
+        self.ui.setupUi(self.window, df)
+        self.ui.resultSignal.connect(self.updateOutput)
+        self.ui.dfSignalDataType.connect(self.updateDF)
         self.window.show()
 
     def retranslateUi(self, DataSpanner):
