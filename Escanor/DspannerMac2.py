@@ -12,6 +12,7 @@ import datetime
 import sys, traceback
 from sumWindow import Ui_Summer
 from dataTypeWindow import Ui_DataTypeWindow
+from Melter import Ui_Melter
 
 class Ui_DataSpanner(QMainWindow):
 
@@ -413,6 +414,7 @@ class Ui_DataSpanner(QMainWindow):
         self.FindNullsButton.clicked.connect(self.executefindnulls)
         self.StorageUsageEstimateButton.clicked.connect(self.StorageUsage)
         self.SumColumnButton.clicked.connect(self.sumColumnWindowOpen)
+        self.MeltTransposeDataButton.clicked.connect(self.melterWindowOpen)
 
 
 #menu connections
@@ -436,6 +438,15 @@ class Ui_DataSpanner(QMainWindow):
         self.ui.resultSignal.connect(self.updateOutput)
         self.ui.dfSignalSum.connect(self.updateDF)
         self.window.show()
+
+    def melterWindowOpen(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_Melter()
+        self.ui.setupUi(self.window)
+        self.ui.resultSignal.connect(self.updateOutput)
+        self.ui.dfSignalMelter.connect(self.updateDF)
+        self.window.show()
+
 
     def dataTypeWindowOpen(self):
         self.window = QtWidgets.QMainWindow()
@@ -524,30 +535,6 @@ class Ui_DataSpanner(QMainWindow):
             self.OutputText.repaint()
       
                     
-
-    def melter(self):
-        ##make sure your variables follow the same pattern in how their written for readability
-        global df
-        try:
-            nameOfRowValues= rowvalue.get()
-            nameOfColumnValues= colvalue.get()
-            pivotOnColumns=pivoncolumns.get()
-            pivotWithColumns=pivwithcolumns.get()
-            df=df
-            df=pd.melt(df, id_vars=pivotOnColumns,
-                 value_vars=pivotWithColumns.split(', '),
-                 value_name=nameOfRowValues,
-                 var_name=nameOfColumnValues)
-            self.OutputText.insertPlainText(df.to_string())
-            self.PandasCode.insertPlainText(f"""\npd.melt(df, id_vars={[pivotOnColumns]},
-                value_vars={pivotWithColumns}.split(', '),
-                value_name={nameOfRowValues},
-                var_name={nameOfColumnValues})""")
-            self.OutputText.repaint()
-        except Exception as e:
-            self.OutputText.insertPlainText('\n'+str(e)+'\n')
-            self.OutputText.repaint()
-
     # you can easily make a xls version of this, remember to alter the inital dir
     def openCSV(self):
         try:
