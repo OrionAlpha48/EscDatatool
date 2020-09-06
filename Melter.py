@@ -10,8 +10,8 @@ class Ui_Melter(QtWidgets.QWidget):
         global dfForMelting
         dfForMelting = df
 
-        Melter.setObjectName("Melter")
-        Melter.resize(400, 199)
+        melterWindow.setObjectName("melterWindow")
+        melterWindow.resize(400, 199)
 
         self.verticalLayoutWidget = QtWidgets.QWidget(Melter)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(9, 9, 381, 116))
@@ -44,7 +44,7 @@ class Ui_Melter(QtWidgets.QWidget):
         self.retranslateUi(melterWindow)
         QtCore.QMetaObject.connectSlotsByName(melterWindow)
 
-    def retranslateUi(self, Melter):
+    def retranslateUi(self, melterWindow):
         _translate = QtCore.QCoreApplication.translate
         melterWindow.setWindowTitle(_translate("Melter", "Form"))
         self.rowValues.setText(_translate("Melter", "Value Vars"))
@@ -72,7 +72,7 @@ class Ui_Melter(QtWidgets.QWidget):
                 var_name={nameOfColumnValues})""")
             self.OutputText.repaint()
         except Exception as e:
-            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.resultSignal.emit('\n'+str(e)+'\n')
             self.OutputText.repaint()
 
 

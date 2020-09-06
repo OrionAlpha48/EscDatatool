@@ -12,7 +12,7 @@ import datetime
 import sys, traceback
 from sumWindow import Ui_Summer
 from dataTypeWindow import Ui_DataTypeWindow
-from Melter import Ui_Melter
+from melterWindow import Ui_Melter
 
 class Ui_DataSpanner(QMainWindow):
 
@@ -396,7 +396,7 @@ class Ui_DataSpanner(QMainWindow):
         self.w = None
 
         self.retranslateUi(DataSpanner)
-        self.CodeSwitch.setCurrentIndex(1)
+        self.CodeSwitch.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(DataSpanner)
 
 #button connections      
@@ -442,11 +442,10 @@ class Ui_DataSpanner(QMainWindow):
     def melterWindowOpen(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_Melter()
-        self.ui.setupUi(self.window)
+        self.ui.setupUi(self.window, df)
         self.ui.resultSignal.connect(self.updateOutput)
         self.ui.dfSignalMelter.connect(self.updateDF)
         self.window.show()
-
 
     def dataTypeWindowOpen(self):
         self.window = QtWidgets.QMainWindow()
@@ -500,6 +499,8 @@ class Ui_DataSpanner(QMainWindow):
         self.ImportCSV.setText(_translate("DataSpanner", "CSV"))
         self.ImportExcel.setText(_translate("DataSpanner", "Excel"))
         self.Quit.setText(_translate("DataSpanner", "Quit"))
+
+
 
     def checker(self):
         try:

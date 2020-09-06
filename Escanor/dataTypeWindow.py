@@ -53,14 +53,6 @@ class Ui_DataTypeWindow(QtWidgets.QWidget):
         self.retranslateUi(dataTypeWindow)
         QtCore.QMetaObject.connectSlotsByName(dataTypeWindow)
 
-    def executeDataCast(self, df):
-        try:
-            dataType = self.dataTypesButtonGroup.checkedButton().text()
-            column=self.targetColumn.text()
-            dfForDataTypes[column] = dfForDataTypes[column].astype(dataType)
-            self.dfSignalDataType.emit(dfForDataTypes)
-        except Exception as e:
-            self.resultSignal.emit('\n'+str(e)+'\n')
 
     def retranslateUi(self, dataTypeWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -71,6 +63,14 @@ class Ui_DataTypeWindow(QtWidgets.QWidget):
         self.Button3.setText(_translate("dataTypeWindow", "float"))
         self.castButton.setText(_translate("dataTypeWindow", "Cast Type"))
 
+    def executeDataCast(self, df):
+        try:
+            dataType = self.dataTypesButtonGroup.checkedButton().text()
+            column=self.targetColumn.text()
+            dfForDataTypes[column] = dfForDataTypes[column].astype(dataType)
+            self.dfSignalDataType.emit(dfForDataTypes)
+        except Exception as e:
+            self.resultSignal.emit('\n'+str(e)+'\n')
 
 if __name__ == "__main__":
     import sys

@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import pandas as pd
 
-
 class Ui_Summer(QtWidgets.QWidget):
     
     resultSignal = QtCore.pyqtSignal(str)
