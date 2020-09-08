@@ -13,6 +13,7 @@ import sys, traceback
 from sumWindow import Ui_Summer
 from dataTypeWindow import Ui_DataTypeWindow
 from melterWindow import Ui_Melter
+from nullFinderWindow import Ui_Unnull
 
 class Ui_DataSpanner(QMainWindow):
 
@@ -411,16 +412,15 @@ class Ui_DataSpanner(QMainWindow):
         self.CountRowsButton.clicked.connect(self.RowCount)
         self.PrintDataTypesButton.clicked.connect(self.printDatatypes)
         self.MemoryUsageEstimateButton.clicked.connect(self.memoryUsage)
-        self.FindNullsButton.clicked.connect(self.executefindnulls)
+        
         self.StorageUsageEstimateButton.clicked.connect(self.StorageUsage)
         self.SumColumnButton.clicked.connect(self.sumColumnWindowOpen)
         self.MeltTransposeDataButton.clicked.connect(self.melterWindowOpen)
-
-
-#menu connections
+        self.FindNullsButton.clicked.connect(self.nullFinderWindowOpen)
         self.ImportCSV.triggered.connect(self.openCSV)
         self.ImportExcel.triggered.connect(self.openxls)
 
+    #slot connections
     @QtCore.pyqtSlot(str)
     def updateOutput(self, Output):
         self.OutputText.insertPlainText(Output)
@@ -431,6 +431,11 @@ class Ui_DataSpanner(QMainWindow):
         self.OutputText.insertPlainText(df.to_string())
         self.OutputText.repaint()
 
+    @QtCore.pyqtSlot(str)
+    def addPythoncode(self, newCode):
+        self.PandasCode.insertPlainText(newCode)
+
+    #window Definitions
     def sumColumnWindowOpen(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_Summer()
@@ -453,6 +458,14 @@ class Ui_DataSpanner(QMainWindow):
         self.ui.setupUi(self.window, df)
         self.ui.resultSignal.connect(self.updateOutput)
         self.ui.dfSignalDataType.connect(self.updateDF)
+        self.window.show()
+
+    def nullFinderWindowOpen(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_Unnull()
+        self.ui.setupUi(self.window, df)
+        self.ui.resultSignal.connect(self.updateOutput)
+        self.ui.dfSignalNulls.connect(self.updateDF)
         self.window.show()
 
     def retranslateUi(self, DataSpanner):
@@ -516,20 +529,6 @@ class Ui_DataSpanner(QMainWindow):
             df=df
             df=df.loc[:, ~df.columns.str.contains('^Unnamed')]
             self.PandasCode.insertPlainText("df=df.loc[:, ~df.columns.str.contains('^Unnamed')]")
-            self.OutputText.repaint()
-        except Exception as e:
-            self.OutputText.insertPlainText('\n'+str(e)+'\n')
-            self.OutputText.repaint()
-    
-    def executefindnulls(self):
-        global dfnulls
-        global df
-        try:
-            df=df
-            column=nameofColumnToCheckForNulls.get()
-            dfnulls=df[df[column].isna()]
-            self.OutputText.insertPlainText(dfnulls.to_string())
-            self.PandasCode.insertPlainText(f"\ndf=df[df[{column}].isna()]")
             self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
