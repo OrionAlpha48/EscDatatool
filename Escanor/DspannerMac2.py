@@ -434,14 +434,16 @@ class Ui_DataSpanner(QMainWindow):
     @QtCore.pyqtSlot(str)
     def addPythoncode(self, newCode):
         self.PandasCode.insertPlainText(newCode)
+        self.PandasCode.repaint()
 
-    #window Definitions
+    #Window Definitions
     def sumColumnWindowOpen(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_Summer()
         self.ui.setupUi(self.window, df, self.OutputText)
         self.ui.resultSignal.connect(self.updateOutput)
         self.ui.dfSignalSum.connect(self.updateDF)
+        self.ui.pandasSignal.connect(self.addPythoncode)
         self.window.show()
 
     def melterWindowOpen(self):
@@ -450,6 +452,7 @@ class Ui_DataSpanner(QMainWindow):
         self.ui.setupUi(self.window, df)
         self.ui.resultSignal.connect(self.updateOutput)
         self.ui.dfSignalMelter.connect(self.updateDF)
+        self.ui.pandasSignal.connect(self.addPythoncode)
         self.window.show()
 
     def dataTypeWindowOpen(self):
@@ -458,6 +461,7 @@ class Ui_DataSpanner(QMainWindow):
         self.ui.setupUi(self.window, df)
         self.ui.resultSignal.connect(self.updateOutput)
         self.ui.dfSignalDataType.connect(self.updateDF)
+        self.ui.pandasSignal.connect(self.addPythoncode)
         self.window.show()
 
     def nullFinderWindowOpen(self):
@@ -466,6 +470,7 @@ class Ui_DataSpanner(QMainWindow):
         self.ui.setupUi(self.window, df)
         self.ui.resultSignal.connect(self.updateOutput)
         self.ui.dfSignalNulls.connect(self.updateDF)
+        self.ui.pandasSignal.connect(self.addPythoncode)
         self.window.show()
 
     def retranslateUi(self, DataSpanner):
@@ -575,8 +580,8 @@ class Ui_DataSpanner(QMainWindow):
             self.PandasCode.insertPlainText(f"""\n(df.dtypes)""")
             self.OutputText.repaint()
         except Exception as e:
-                    self.OutputText.insertPlainText('\n'+str(e)+'\n')
-                    self.OutputText.repaint()
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
     
     def columnLowerCase(self):
         global df
@@ -586,8 +591,8 @@ class Ui_DataSpanner(QMainWindow):
             self.PandasCode.insertPlainText(f"""\ndf.columns=map(str.lower, df.columns)""")
             self.OutputText.repaint()
         except Exception as e:
-                        self.OutputText.insertPlainText('\n'+str(e)+'\n')
-                        self.OutputText.repaint()
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
     
     def RemoveSpacesInColumnTitle(self):
         global df
@@ -597,12 +602,9 @@ class Ui_DataSpanner(QMainWindow):
             self.PandasCode.insertPlainText(f"""\ndf.columns=df.columns.str.replace(' ', '_')""")
             self.OutputText.repaint()
         except Exception as e:
-                        self.OutputText.insertPlainText('\n'+str(e)+'\n')
-                        self.OutputText.repaint()
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
-## TO DO: This is cute, but what if its the sum of two columns per row.
-## probably will never need the sum of all
-    
 
 
     def stripWhiteSpace(self):
@@ -615,8 +617,8 @@ class Ui_DataSpanner(QMainWindow):
             self.PandasCode.insertPlainText(f"""df[{columnToStrip}] = df[{columnToStrip}].str.strip()""")
             self.OutputText.repaint()
         except Exception as e:
-                    self.OutputText.insertPlainText('\n'+str(e)+'\n')
-                    self.OutputText.repaint()
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
     
     def replacer(self):

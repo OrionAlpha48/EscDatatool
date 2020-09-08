@@ -4,6 +4,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Unnull(QtWidgets.QWidget):
     dfSignalNulls = QtCore.pyqtSignal(pd.DataFrame)
     resultSignal = QtCore.pyqtSignal(str)
+    pandasSignal = QtCore.pyqtSignal(str)
 
     def setupUi(self, nullFinderWindow, df):
         global dfFindNulls
@@ -41,6 +42,7 @@ class Ui_Unnull(QtWidgets.QWidget):
             column=str(self.columnWithNulls.text())
             dfnulls=df[df[column].isna()]
             self.dfSignalNulls.emit(dfnulls)
+            self.pandasSignal.emit(f"df=df[df[{column}].isna()]")
         except Exception as e:
             self.resultSignal.emit('\n'+str(e)+'\n')
 

@@ -5,6 +5,7 @@ class Ui_Summer(QtWidgets.QWidget):
     
     resultSignal = QtCore.pyqtSignal(str)
     dfSignalSum = QtCore.pyqtSignal(pd.DataFrame)
+    pandasSignal = QtCore.pyqtSignal(str)
 
     def setupUi(self, sumColumnWindow, df, OutputText):
         global dftosum
@@ -45,6 +46,7 @@ class Ui_Summer(QtWidgets.QWidget):
             sumCol = str(self.columnToSum.text())
             res=dftosum.groupby([groupCol])[sumCol].sum()
             self.dfSignalSum.emit(res.to_frame())
+            self.pandasSignal.emit(f"df.groupby([{groupCol}])[{sumCol}].sum()")
         except Exception as e:
             self.resultSignal.emit('\n'+str(e)+'\n')
 

@@ -5,6 +5,7 @@ class Ui_Melter(QtWidgets.QWidget):
     
     dfSignalMelter = QtCore.pyqtSignal(pd.DataFrame)
     resultSignal = QtCore.pyqtSignal(str)
+    pandasSignal = QtCore.pyqtSignal(str)
     
     def setupUi(self, melterWindow, df):
         global dfForMelting
@@ -60,12 +61,11 @@ class Ui_Melter(QtWidgets.QWidget):
                  value_name=nameOfRowValues,
                  var_name=nameOfColumnValues)
             self.dfSignalMelter.emit(df)
-            #self.OutputText.insertPlainText(df.to_string())
-            #self.PandasCode.insertPlainText(f"""\npd.melt(df, id_vars={[pivotOnColumns]},
-            #   value_vars={pivotWithColumns}.split(', '),
-            #   value_name={nameOfRowValues},
-            #    var_name={nameOfColumnValues})""")
-            #self.OutputText.repaint()
+            self.pandasSignal.emit(f"""\npd.melt(df, id_vars={[pivotOnColumns]},
+               value_vars={pivotWithColumns}.split(', '),
+               value_name={nameOfRowValues},
+                var_name={nameOfColumnValues})""")
+            
         except Exception as e:
             self.resultSignal.emit('\n'+str(e)+'\n')
 
