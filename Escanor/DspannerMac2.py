@@ -555,7 +555,7 @@ class Ui_DataSpanner(QMainWindow):
         try:
             path = QtWidgets.QFileDialog.getOpenFileName(None, "xls", "/Desktop")[0]
             global df
-            df=pd.read_excel(filepath_or_buffer=str(path))
+            df=pd.read_excel(io=path, filepath_or_buffer=path)
             self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')

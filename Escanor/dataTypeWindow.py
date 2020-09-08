@@ -5,7 +5,7 @@ class Ui_DataTypeWindow(QtWidgets.QWidget):
 
     dfSignalDataType = QtCore.pyqtSignal(pd.DataFrame)
     resultSignal = QtCore.pyqtSignal(str)
-    pandasSignal = QtCore.pyqtSignal(srt)
+    pandasSignal = QtCore.pyqtSignal(str)
 
     def setupUi(self, dataTypeWindow, df):
         global dfForDataTypes
