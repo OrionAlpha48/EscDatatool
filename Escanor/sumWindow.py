@@ -46,7 +46,7 @@ class Ui_Summer(QtWidgets.QWidget):
             sumCol = str(self.columnToSum.text())
             res=dftosum.groupby([groupCol])[sumCol].sum()
             self.dfSignalSum.emit(res.to_frame())
-            self.pandasSignal.emit(f"df.groupby([{groupCol}])[{sumCol}].sum()")
+            self.pandasSignal.emit(f"\ndf.groupby([{groupCol}])[{sumCol}].sum()")
         except Exception as e:
             self.resultSignal.emit('\n'+str(e)+'\n')
 

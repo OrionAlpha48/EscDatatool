@@ -42,7 +42,7 @@ class Ui_Unnull(QtWidgets.QWidget):
             column=str(self.columnWithNulls.text())
             dfnulls=df[df[column].isna()]
             self.dfSignalNulls.emit(dfnulls)
-            self.pandasSignal.emit(f"df=df[df[{column}].isna()]")
+            self.pandasSignal.emit(f"\ndf=df[df[{column}].isna()]")
         except Exception as e:
             self.resultSignal.emit('\n'+str(e)+'\n')
 

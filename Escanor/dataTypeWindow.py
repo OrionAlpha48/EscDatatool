@@ -70,7 +70,7 @@ class Ui_DataTypeWindow(QtWidgets.QWidget):
             column=self.targetColumn.text()
             dfForDataTypes[column] = dfForDataTypes[column].astype(dataType)
             self.dfSignalDataType.emit(dfForDataTypes)
-            self.pandasSignal.emit(f"dfForDataTypes[{column}].astype({dataType})")
+            self.pandasSignal.emit(f"\ndfForDataTypes[{column}].astype({dataType})")
         except Exception as e:
             self.resultSignal.emit('\n'+str(e)+'\n')
 

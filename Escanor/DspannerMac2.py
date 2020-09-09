@@ -533,7 +533,7 @@ class Ui_DataSpanner(QMainWindow):
         try:
             df=df
             df=df.loc[:, ~df.columns.str.contains('^Unnamed')]
-            self.PandasCode.insertPlainText("df=df.loc[:, ~df.columns.str.contains('^Unnamed')]")
+            self.PandasCode.insertPlainText("\ndf=df.loc[:, ~df.columns.str.contains('^Unnamed')]")
             self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
