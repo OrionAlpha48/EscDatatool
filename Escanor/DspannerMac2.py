@@ -5,8 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 #Imports
 import pandas as pd
 import numpy as np
-import boto3
-import io
+import boto3, io
 import os
 import datetime
 import sys, traceback
@@ -14,6 +13,8 @@ from sumWindow import Ui_Summer
 from dataTypeWindow import Ui_DataTypeWindow
 from melterWindow import Ui_Melter
 from nullFinderWindow import Ui_Unnull
+from whiteSpaceStripWindow import Ui_RemoveWhiteSpace
+from replacerWindow import Ui_Replacer 
 
 class Ui_DataSpanner(QMainWindow):
 
@@ -407,18 +408,21 @@ class Ui_DataSpanner(QMainWindow):
         self.ColumnTitlesLowerCaseButton.clicked.connect(self.columnLowerCase)
         self.DropBlankColumnsButton.clicked.connect(self.dropBlankColumns)
         self.RemoveWhiteSpaceInHeadersButton.clicked.connect(self.RemoveSpacesInColumnTitle)
-        self.StripWhiteSpaceInColumnsButton.clicked.connect(self.stripWhiteSpace)
+        
         self.CastDataTypesButton.clicked.connect(self.dataTypeWindowOpen)
         self.CountRowsButton.clicked.connect(self.RowCount)
         self.PrintDataTypesButton.clicked.connect(self.printDatatypes)
         self.MemoryUsageEstimateButton.clicked.connect(self.memoryUsage)
-        
+        self.ImportCSV.triggered.connect(self.openCSV)
+        self.ImportExcel.triggered.connect(self.openxls)
         self.StorageUsageEstimateButton.clicked.connect(self.StorageUsage)
+
+        self.StripWhiteSpaceInColumnsButton.clicked.connect(self.whiteSpaceStripWindowOpen)
         self.SumColumnButton.clicked.connect(self.sumColumnWindowOpen)
         self.MeltTransposeDataButton.clicked.connect(self.melterWindowOpen)
         self.FindNullsButton.clicked.connect(self.nullFinderWindowOpen)
-        self.ImportCSV.triggered.connect(self.openCSV)
-        self.ImportExcel.triggered.connect(self.openxls)
+        self.SubstituteValuesButton.clicked.connect(self.subValueWindowOpen)
+        
 
     #slot connections
     @QtCore.pyqtSlot(str)
@@ -437,6 +441,15 @@ class Ui_DataSpanner(QMainWindow):
         self.PandasCode.repaint()
 
     #Window Definitions
+    def subValueWindowOpen(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_Replacer()
+        self.ui.setupUi(self.window, df)
+        self.ui.resultSignal.connect(self.updateOutput)
+        self.ui.dfSignalReplacer.connect(self.updateDF)
+        self.ui.pandasSignal.connect(self.addPythoncode)
+        self.window.show()
+
     def sumColumnWindowOpen(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_Summer()
@@ -465,6 +478,15 @@ class Ui_DataSpanner(QMainWindow):
         self.window.show()
 
     def nullFinderWindowOpen(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_Unnull()
+        self.ui.setupUi(self.window, df)
+        self.ui.resultSignal.connect(self.updateOutput)
+        self.ui.dfSignalNulls.connect(self.updateDF)
+        self.ui.pandasSignal.connect(self.addPythoncode)
+        self.window.show()
+
+    def whiteSpaceStripWindowOpen(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_Unnull()
         self.ui.setupUi(self.window, df)
@@ -606,51 +628,6 @@ class Ui_DataSpanner(QMainWindow):
             self.OutputText.repaint()
 
 
-
-    def stripWhiteSpace(self):
-        global df
-        try:
-            df=df
-            columToStrip=columnsToStrip.get()
-            df[columnToStrip] = df[columnToStrip].str.strip()
-            self.OutputText.insertPlainText(df.to_string)
-            self.PandasCode.insertPlainText(f"""df[{columnToStrip}] = df[{columnToStrip}].str.strip()""")
-            self.OutputText.repaint()
-        except Exception as e:
-            self.OutputText.insertPlainText('\n'+str(e)+'\n')
-            self.OutputText.repaint()
-
-    
-    def replacer(self):
-        global df
-        global valuetoReplace
-        global relaceWith
-        try:
-            df=df
-            df[columnToRep.get()] = df[columnToRep.get()].replace(valuetoReplace.get(), replaceWith.get())
-            self.OutputText.insertPlainText(df.to_string)
-            self.PandasCode.insertPlainText(f"""df[{columnToRep.get()}] = df[{columnToRep.get()}].replace({valuetoReplace.get()}, {replaceWith.get()})""")
-            self.OutputText.repaint()
-        except Exception as e:
-                    self.OutputText.insertPlainText('\n'+str(e)+'\n')
-                    self.OutputText.repaint()
-
-# def replacerPop(self):
-#     replacerPopUp=Toplevel(root, height=100, width=100)
-#     global columnToRep
-#     global df
-#     global valuetoReplace
-#     global replaceWith
-#     df=df
-#     columnToRep=Entry(replacerPopUp)
-#     valuetoReplace=Entry(replacerPopUp)
-#     replaceWith=Entry(replacerPopUp)
-#     columnToRep.grid(row=0, column=0)
-#     valuetoReplace.grid(row=1, column=0)
-#     replaceWith.grid(row=2, column=0)
-#     replacerButton=Button(replacerPopUp, command=replacer, text='Replace', highlightbackground="goldenrod2")
-#     replacerButton.grid(row=3, column=0, pady=10, sticky= 'ew')
-
     def SaveDF(self):
         global df
         global dfsaved
@@ -699,21 +676,6 @@ class Ui_DataSpanner(QMainWindow):
             self.OutputText.repaint()
 
 
-    # def mathematicsFeatures(self):
-    #             mathWindow=Toplevel(root, height=100, width=100)
-    #             global resultColumnName
-    #             global firstColumn
-    #             global secondColumn
-    #             resultColumnName=Entry(mathWindow)
-    #             resultColumnName.pack()
-    #             firstColumn=Entry(mathWindow)
-    #             firstColumn.pack()
-    #             secondColumn=Entry(mathWindow)
-    #             secondColumn.pack()
-    #             for text, operation in MATHAMATICS:
-    #                             button=Radiobutton(mathWindow, text=text, variable=v, value=operation).pack()
-    #             enterButton=Button(mathWindow,command=executeMathematics, text="Operate!", highlightbackground="goldenrod2").pack()
- 
     def executeMathematics(self):
         global df
         global resultColumnName

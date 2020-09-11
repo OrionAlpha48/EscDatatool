@@ -49,7 +49,7 @@ class Ui_Melter(QtWidgets.QWidget):
         self.meltButton.setText(_translate("melterWindow", "Unpivot"))
 
     def melter(self):
-        ##make sure your variables follow the same pattern in how their written for readability
+        ##make sure your variables follow the same pattern in how they're written for readability
         try:
             nameOfRowValues = str(self.rowValues.text())
             nameOfColumnValues = str(self.columnValues.text())
