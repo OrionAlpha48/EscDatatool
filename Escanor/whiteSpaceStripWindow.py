@@ -3,7 +3,7 @@ import pandas as pd
 
 class Ui_RemoveWhiteSpace(QtWidgets.QWidget):
     
-    dfSignalStrip = QtCore.pyqtSignal(pd.DataFrame)
+    dfSignal = QtCore.pyqtSignal(pd.DataFrame)
     resultSignal = QtCore.pyqtSignal(str)
     pandasSignal = QtCore.pyqtSignal(str)
 

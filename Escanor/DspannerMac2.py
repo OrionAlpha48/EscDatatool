@@ -14,7 +14,8 @@ from dataTypeWindow import Ui_DataTypeWindow
 from melterWindow import Ui_Melter
 from nullFinderWindow import Ui_Unnull
 from whiteSpaceStripWindow import Ui_RemoveWhiteSpace
-from replacerWindow import Ui_Replacer 
+from replacerWindow import Ui_Replacer
+from basicMathWindow import Ui_basicMathWindow
 
 class Ui_DataSpanner(QMainWindow):
 
@@ -424,6 +425,7 @@ class Ui_DataSpanner(QMainWindow):
         self.MeltTransposeDataButton.clicked.connect(self.melterWindowOpen)
         self.FindNullsButton.clicked.connect(self.nullFinderWindowOpen)
         self.SubstituteValuesButton.clicked.connect(self.subValueWindowOpen)
+        self.BasicMathematicsButton.clicked.connect(self.basicMathWindowOpen)
 
     #slot connections
     @QtCore.pyqtSlot(str)
@@ -510,15 +512,29 @@ class Ui_DataSpanner(QMainWindow):
     def whiteSpaceStripWindowOpen(self):
         try:
             self.window = QtWidgets.QMainWindow()
-            self.ui = Ui_Unnull()
+            self.ui = Ui_RemoveWhiteSpace()
             self.ui.setupUi(self.window, df)
             self.ui.resultSignal.connect(self.updateOutput)
-            self.ui.dfSignalNulls.connect(self.updateDF)
+            self.ui.dfSignal.connect(self.updateDF)
             self.ui.pandasSignal.connect(self.addPythoncode)
             self.window.show()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
             self.OutputText.repaint()
+
+    def basicMathWindowOpen(self):
+        try:
+            self.window = QtWidgets.QMainWindow()
+            self.ui = Ui_basicMathWindow()
+            self.ui.setupUi(self.window, df)
+            self.ui.resultSignal.connect(self.updateOutput)
+            self.ui.dfSignal.connect(self.updateDF)
+            self.ui.pandasSignal.connect(self.addPythoncode)
+            self.window.show()
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
+
 
     def retranslateUi(self, DataSpanner):
         _translate = QtCore.QCoreApplication.translate
