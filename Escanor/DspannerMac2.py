@@ -18,6 +18,7 @@ from replacerWindow import Ui_Replacer
 
 class Ui_DataSpanner(QMainWindow):
 
+    
     def setupUi(self, DataSpanner):
         DataSpanner.setObjectName("DataSpanner")
         DataSpanner.resize(1440, 783)
@@ -300,14 +301,14 @@ class Ui_DataSpanner(QMainWindow):
         self.CountRowsButton.setSizePolicy(sizePolicy)
         self.CountRowsButton.setObjectName("CountRowsButton")
         self.AnalyseLayout.addWidget(self.CountRowsButton, 0, 3, 1, 1)
-        self.SumColumnButton = QtWidgets.QToolButton(self.gridLayoutWidget_5)
+        self.sumColumnButton = QtWidgets.QToolButton(self.gridLayoutWidget_5)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.SumColumnButton.sizePolicy().hasHeightForWidth())
-        self.SumColumnButton.setSizePolicy(sizePolicy)
-        self.SumColumnButton.setObjectName("SumColumnButton")
-        self.AnalyseLayout.addWidget(self.SumColumnButton, 0, 2, 1, 1)
+        sizePolicy.setHeightForWidth(self.sumColumnButton.sizePolicy().hasHeightForWidth())
+        self.sumColumnButton.setSizePolicy(sizePolicy)
+        self.sumColumnButton.setObjectName("sumColumnButton")
+        self.AnalyseLayout.addWidget(self.sumColumnButton, 0, 2, 1, 1)
         self.PrintDataTypesButton = QtWidgets.QToolButton(self.gridLayoutWidget_5)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -342,7 +343,7 @@ class Ui_DataSpanner(QMainWindow):
         self.AnalyseLayout.addWidget(self.StorageUsageEstimateButton, 1, 1, 1, 1)
         self.PrintDataTypesButton.raise_()
         self.FindNullsButton.raise_()
-        self.SumColumnButton.raise_()
+        self.sumColumnButton.raise_()
         self.CountRowsButton.raise_()
         self.MemoryUsageEstimateButton.raise_()
         self.StorageUsageEstimateButton.raise_()
@@ -401,15 +402,13 @@ class Ui_DataSpanner(QMainWindow):
         self.CodeSwitch.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(DataSpanner)
 
-#button connections      
+#Self Dependant Buttons      
         self.CheckDataFrame.clicked.connect(self.checker)
         self.RestoreDFButton.clicked.connect(self.RestoreDF)
         self.SaveDFButton.clicked.connect(self.SaveDF)
         self.ColumnTitlesLowerCaseButton.clicked.connect(self.columnLowerCase)
         self.DropBlankColumnsButton.clicked.connect(self.dropBlankColumns)
         self.RemoveWhiteSpaceInHeadersButton.clicked.connect(self.RemoveSpacesInColumnTitle)
-        
-        self.CastDataTypesButton.clicked.connect(self.dataTypeWindowOpen)
         self.CountRowsButton.clicked.connect(self.RowCount)
         self.PrintDataTypesButton.clicked.connect(self.printDatatypes)
         self.MemoryUsageEstimateButton.clicked.connect(self.memoryUsage)
@@ -417,12 +416,14 @@ class Ui_DataSpanner(QMainWindow):
         self.ImportExcel.triggered.connect(self.openxls)
         self.StorageUsageEstimateButton.clicked.connect(self.StorageUsage)
 
+#Open Window Button
+        
+        self.CastDataTypesButton.clicked.connect(self.dataTypeWindowOpen)
         self.StripWhiteSpaceInColumnsButton.clicked.connect(self.whiteSpaceStripWindowOpen)
-        self.SumColumnButton.clicked.connect(self.sumColumnWindowOpen)
+        self.sumColumnButton.clicked.connect(self.sumColumnWindowOpen)
         self.MeltTransposeDataButton.clicked.connect(self.melterWindowOpen)
         self.FindNullsButton.clicked.connect(self.nullFinderWindowOpen)
         self.SubstituteValuesButton.clicked.connect(self.subValueWindowOpen)
-        
 
     #slot connections
     @QtCore.pyqtSlot(str)
@@ -442,58 +443,82 @@ class Ui_DataSpanner(QMainWindow):
 
     #Window Definitions
     def subValueWindowOpen(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_Replacer()
-        self.ui.setupUi(self.window, df)
-        self.ui.resultSignal.connect(self.updateOutput)
-        self.ui.dfSignalReplacer.connect(self.updateDF)
-        self.ui.pandasSignal.connect(self.addPythoncode)
-        self.window.show()
+        try:
+            self.window = QtWidgets.QMainWindow()
+            self.ui = Ui_Replacer()
+            self.ui.setupUi(self.window, df)
+            self.ui.resultSignal.connect(self.updateOutput)
+            self.ui.dfSignalReplacer.connect(self.updateDF)
+            self.ui.pandasSignal.connect(self.addPythoncode)
+            self.window.show()
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
     def sumColumnWindowOpen(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_Summer()
-        self.ui.setupUi(self.window, df, self.OutputText)
-        self.ui.resultSignal.connect(self.updateOutput)
-        self.ui.dfSignalSum.connect(self.updateDF)
-        self.ui.pandasSignal.connect(self.addPythoncode)
-        self.window.show()
+        try:
+            self.window = QtWidgets.QMainWindow()
+            self.ui = Ui_Summer()
+            self.ui.setupUi(self.window, df, self.OutputText)
+            self.ui.resultSignal.connect(self.updateOutput)
+            self.ui.dfSignalSum.connect(self.updateDF)
+            self.ui.pandasSignal.connect(self.addPythoncode)
+            self.window.show()
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()    
 
     def melterWindowOpen(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_Melter()
-        self.ui.setupUi(self.window, df)
-        self.ui.resultSignal.connect(self.updateOutput)
-        self.ui.dfSignalMelter.connect(self.updateDF)
-        self.ui.pandasSignal.connect(self.addPythoncode)
-        self.window.show()
+        try:
+            self.window = QtWidgets.QMainWindow()
+            self.ui = Ui_Melter()
+            self.ui.setupUi(self.window, df)
+            self.ui.resultSignal.connect(self.updateOutput)
+            self.ui.dfSignalMelter.connect(self.updateDF)
+            self.ui.pandasSignal.connect(self.addPythoncode)
+            self.window.show()
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
     def dataTypeWindowOpen(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_DataTypeWindow()
-        self.ui.setupUi(self.window, df)
-        self.ui.resultSignal.connect(self.updateOutput)
-        self.ui.dfSignalDataType.connect(self.updateDF)
-        self.ui.pandasSignal.connect(self.addPythoncode)
-        self.window.show()
+        try:
+            self.window = QtWidgets.QMainWindow()
+            self.ui = Ui_DataTypeWindow()
+            self.ui.setupUi(self.window, df)
+            self.ui.resultSignal.connect(self.updateOutput)
+            self.ui.dfSignalDataType.connect(self.updateDF)
+            self.ui.pandasSignal.connect(self.addPythoncode)
+            self.window.show()
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
     def nullFinderWindowOpen(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_Unnull()
-        self.ui.setupUi(self.window, df)
-        self.ui.resultSignal.connect(self.updateOutput)
-        self.ui.dfSignalNulls.connect(self.updateDF)
-        self.ui.pandasSignal.connect(self.addPythoncode)
-        self.window.show()
+        try:
+            self.window = QtWidgets.QMainWindow()
+            self.ui = Ui_Unnull()
+            self.ui.setupUi(self.window, df)
+            self.ui.resultSignal.connect(self.updateOutput)
+            self.ui.dfSignalNulls.connect(self.updateDF)
+            self.ui.pandasSignal.connect(self.addPythoncode)
+            self.window.show()
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
     def whiteSpaceStripWindowOpen(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_Unnull()
-        self.ui.setupUi(self.window, df)
-        self.ui.resultSignal.connect(self.updateOutput)
-        self.ui.dfSignalNulls.connect(self.updateDF)
-        self.ui.pandasSignal.connect(self.addPythoncode)
-        self.window.show()
+        try:
+            self.window = QtWidgets.QMainWindow()
+            self.ui = Ui_Unnull()
+            self.ui.setupUi(self.window, df)
+            self.ui.resultSignal.connect(self.updateOutput)
+            self.ui.dfSignalNulls.connect(self.updateDF)
+            self.ui.pandasSignal.connect(self.addPythoncode)
+            self.window.show()
+        except Exception as e:
+            self.OutputText.insertPlainText('\n'+str(e)+'\n')
+            self.OutputText.repaint()
 
     def retranslateUi(self, DataSpanner):
         _translate = QtCore.QCoreApplication.translate
@@ -521,7 +546,7 @@ class Ui_DataSpanner(QMainWindow):
         self.SubstituteValuesButton.setText(_translate("DataSpanner", "Substitute Values"))
         self.AnalyseBox.setTitle(_translate("DataSpanner", "Analyse"))
         self.CountRowsButton.setText(_translate("DataSpanner", "Count Rows"))
-        self.SumColumnButton.setText(_translate("DataSpanner", "Sum Column"))
+        self.sumColumnButton.setText(_translate("DataSpanner", "Sum Column"))
         self.PrintDataTypesButton.setText(_translate("DataSpanner", "Print Data Types"))
         self.MemoryUsageEstimateButton.setText(_translate("DataSpanner", "Memory Usage Estimate"))
         self.FindNullsButton.setText(_translate("DataSpanner", "Find Nulls"))
@@ -651,7 +676,7 @@ class Ui_DataSpanner(QMainWindow):
     def RowCount(self):
         global df
         try:
-            self.OutputText.insertPlainText('\n'+str(len(df.index)+'\n'))
+            self.OutputText.insertPlainText('\n'+str(len(df)+'\n'))
             self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
@@ -669,7 +694,7 @@ class Ui_DataSpanner(QMainWindow):
     def StorageUsage(self):
         global df
         try:
-            self.OutputText.insertPlainText('\n'+ str(float(sys.getsizeof(df)/1000000))+'\n')
+            self.OutputText.insertPlainText('\n'+ str(float(sys.getsizeof(df)/1000000))+'GB\n')
             self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
@@ -706,7 +731,7 @@ class Ui_DataSpanner(QMainWindow):
 
 
 
-# def reader():
+# def AWSreader():
 #     credFNameEntry.delete('1.0', END)
 #     credEntry.delete('1.0', END)
 #     global credFName
@@ -715,7 +740,7 @@ class Ui_DataSpanner(QMainWindow):
 #     with open(credFName, "r") as f:
 #                     credEntry.insert(END, f.read())
  
-# def writer():
+# def AWSwriter():
 #     fileName=credFNameEntry.get('1.0', END)
 #     with open(fileName.rstrip(), 'w') as cred_obj:
 #                     cred_obj.write(credEntry.get('1.0', 'end-1c'))
@@ -741,24 +766,7 @@ class Ui_DataSpanner(QMainWindow):
 ## union function
 
 
-# def dropPop(self):
-#     replacerPopUp=Toplevel(root, height=100, width=100)
-#     global columnsToDrop
-#     global df
-#     df=df
-#     columnsToDrop=Entry(replacerPopUp).pack()
-#     replacerButton=Button(dropPop, command=dropper, text='Replace', highlightbackground="goldenrod2")
-#     replacerButton.pack()
 
-# def stripPop(self):
-#     stripPopUp=Toplevel(root, height=100, width=100)
-#     global columnToStrip
-#     global df
-#     df=df
-#     columnsToStrip=Entry(stripPopUp)
-#     columnsToStrip.grid(row=0, column=0)
-#     stripColumnButton=Button(stripPopUp, command=stripWhiteSpace, text='strip White Space', highlightbackground="goldenrod2")
-#     stripColumnButton.grid(row=1, column=0, pady=10, sticky= 'ew')
 
     def dropper(self):
         global df
