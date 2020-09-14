@@ -716,37 +716,6 @@ class Ui_DataSpanner(QMainWindow):
             self.OutputText.insertPlainText('\n'+str(e)+'\n')
             self.OutputText.repaint()
 
-
-    def executeMathematics(self):
-        global df
-        global resultColumnName
-        global firstColumn
-        global secondColumn
-        try:
-            df=df
-            resultColumnName=resultColumnName.get()
-            firstColumn=firstColumn.get()
-            secondColumn=secondColumn.get()
-            op=v.get()
-            if op == "Sum":
-                df[resultColumnName] = df[firstColumn] + df[secondColumn]
-                self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] + df[{secondColumn}]")
-            elif op == "Subtract":
-                df[resultColumnName] = df[firstColumn] - df[secondColumn]
-                self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] - df[{secondColumn}]")
-            elif op == "Mulitiply":
-                df[resultColumnName] = df[firstColumn] * df[secondColumn]
-                self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] * df[{secondColumn}]")
-            elif op == "Divide":
-                df[resultColumnName] = df[firstColumn] / df[secondColumn]
-                self.PandasCode.insertPlainText(f"\ndf[{resultColumnName}] = df[{firstColumn}] / df[{secondColumn}]")
-                self.OutputText.repaint()
-        except Exception as e:
-            self.OutputText.insertPlainText('\n'+str(e)+'\n')
-            self.OutputText.repaint()
-
-
-
 # def AWSreader():
 #     credFNameEntry.delete('1.0', END)
 #     credEntry.delete('1.0', END)

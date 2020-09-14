@@ -39,14 +39,15 @@ class Ui_basicMathWindow(QtWidgets.QWidget):
         self.multiplyRB = QtWidgets.QRadioButton(basicMathWindow)
         self.multiplyRB.setGeometry(QtCore.QRect(100, 230, 100, 20))
         self.multiplyRB.setObjectName("multiplyRB")
-        self.pushButton = QtWidgets.QPushButton(basicMathWindow)
-        self.pushButton.setGeometry(QtCore.QRect(70, 280, 113, 32))
-        self.pushButton.setObjectName("pushButton")
+        self.operateButton = QtWidgets.QPushButton(basicMathWindow)
+        self.operateButton.setGeometry(QtCore.QRect(70, 280, 113, 32))
+        self.operateButton.setObjectName("operateButton")
 
         self.operationsButtonGroup.addButton(self.sumRB)
         self.operationsButtonGroup.addButton(self.multiplyRB)
         self.operationsButtonGroup.addButton(self.divideRB)
         self.operationsButtonGroup.addButton(self.subtractRB)
+        self.operateButton.clicked.connect(self.executeMathematics)
 
         self.retranslateUi(basicMathWindow)
         QtCore.QMetaObject.connectSlotsByName(basicMathWindow)
@@ -62,7 +63,35 @@ class Ui_basicMathWindow(QtWidgets.QWidget):
         self.subtractRB.setText(_translate("basicMathWindow", "Subtract"))
         self.divideRB.setText(_translate("basicMathWindow", "Divide"))
         self.multiplyRB.setText(_translate("basicMathWindow", "Multiply"))
-        self.pushButton.setText(_translate("basicMathWindow", "Operate"))
+        self.operateButton.setText(_translate("basicMathWindow", "Operate"))
+
+    def executeMathematics(self):
+        try:
+            df=dfForOperations
+            operation = self.operationsButtonGroup.checkedButton().text()
+            resultColumnName=self.newColumnName.text()
+            firstColumn=self.firstColumn.text()
+            secondColumn=self.secondColumn.text()
+
+            if operation == "Sum":
+                df[resultColumnName] = df[firstColumn] + df[secondColumn]
+                self.pandasSignal.emit(f"\ndf[{resultColumnName}] = df[{firstColumn}] + df[{secondColumn}]")
+                self.dfSignal.emit(df)
+            elif operation == "Subtract":
+                df[resultColumnName] = df[firstColumn] - df[secondColumn]
+                self.pandasSignal.emit(f"\ndf[{resultColumnName}] = df[{firstColumn}] - df[{secondColumn}]")
+                self.dfSignal.emit(df)
+            elif operation == "Mulitiply":
+                df[resultColumnName] = df[firstColumn] * df[secondColumn]
+                self.pandasSignal.emit(f"\ndf[{resultColumnName}] = df[{firstColumn}] * df[{secondColumn}]")
+                self.dfSignal.emit(df)
+            elif operation == "Divide":
+                df[resultColumnName] = df[firstColumn] / df[secondColumn]
+                self.pandasSignal.emit(f"\ndf[{resultColumnName}] = df[{firstColumn}] / df[{secondColumn}]")
+                self.dfSignal.emit(df)
+        except Exception as e:
+            self.resultSignal.emit('\n'+str(e)+'\n')
+
 
 
 if __name__ == "__main__":
