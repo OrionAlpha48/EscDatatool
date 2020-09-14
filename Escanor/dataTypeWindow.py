@@ -66,11 +66,12 @@ class Ui_DataTypeWindow(QtWidgets.QWidget):
 
     def executeDataCast(self, df):
         try:
+            df = dfForDataTypes
             dataType = self.dataTypesButtonGroup.checkedButton().text()
             column=self.targetColumn.text()
-            dfForDataTypes[column] = dfForDataTypes[column].astype(dataType)
+            df[column] = df[column].astype(dataType)
             self.dfSignalDataType.emit(dfForDataTypes)
-            self.pandasSignal.emit(f"\ndfForDataTypes[{column}].astype({dataType})")
+            self.pandasSignal.emit(f"\ndf[{column}].astype({dataType})")
         except Exception as e:
             self.resultSignal.emit('\n'+str(e)+'\n')
 

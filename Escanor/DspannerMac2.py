@@ -32,6 +32,7 @@ class Ui_DataSpanner(QMainWindow):
         self.Outputs.setContentsMargins(0, 4, 0, 0)
         self.Outputs.setObjectName("Outputs")
         self.Outputs_Label = QtWidgets.QLabel(self.verticalLayoutWidget)
+        
         font = QtGui.QFont()
         font.setFamily("Avenir")
         font.setPointSize(20)
@@ -47,6 +48,8 @@ class Ui_DataSpanner(QMainWindow):
         sizePolicy.setHeightForWidth(self.CodeSwitch.sizePolicy().hasHeightForWidth())
         self.CodeSwitch.setSizePolicy(sizePolicy)
         self.CodeSwitch.setObjectName("CodeSwitch")
+        
+        #Pandas outputs area
         self.Pandas = QtWidgets.QWidget()
         self.Pandas.setObjectName("Pandas")
         self.PandasScrollArea = QtWidgets.QScrollArea(self.Pandas)
@@ -65,6 +68,8 @@ class Ui_DataSpanner(QMainWindow):
         self.PandasCode.setObjectName("PandasCode")
         self.PandasScrollArea.setWidget(self.PandasScrollAreaWidget)
         self.CodeSwitch.addTab(self.Pandas, "")
+        
+        #PySpark outputs area
         self.PySpark = QtWidgets.QWidget()
         self.PySpark.setObjectName("PySpark")
         self.PySparkScrollArea = QtWidgets.QScrollArea(self.PySpark)
@@ -91,6 +96,8 @@ class Ui_DataSpanner(QMainWindow):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.CheckDataFrame.sizePolicy().hasHeightForWidth())
+        
+        #Check DataFrame button
         self.CheckDataFrame.setSizePolicy(sizePolicy)
         self.CheckDataFrame.setIconSize(QtCore.QSize(10, 16))
         self.CheckDataFrame.setObjectName("CheckDataFrame")
@@ -100,6 +107,8 @@ class Ui_DataSpanner(QMainWindow):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
+        
+        #output text formattings
         self.frame.setSizePolicy(sizePolicy)
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -116,6 +125,8 @@ class Ui_DataSpanner(QMainWindow):
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(739, 0, 701, 771))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
+        
+        #Tools/Buttons box and layout
         self.Tools = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.Tools.setContentsMargins(0, 0, 0, 0)
         self.Tools.setObjectName("Tools")
@@ -132,27 +143,33 @@ class Ui_DataSpanner(QMainWindow):
         self.ToolsLabel.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.ToolsLabel.setObjectName("ToolsLabel")
         self.Tools.addWidget(self.ToolsLabel)
+        
+        #Utilities box
         self.UtilitiesBox = QtWidgets.QGroupBox(self.verticalLayoutWidget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.UtilitiesBox.sizePolicy().hasHeightForWidth())
+        #sizePolicy.setVerticalStretch(0)
+        #sizePolicy.setHeightForWidth(self.UtilitiesBox.sizePolicy().hasHeightForWidth())
         self.UtilitiesBox.setSizePolicy(sizePolicy)
         self.UtilitiesBox.setObjectName("UtilitiesBox")
         self.gridLayoutWidget_4 = QtWidgets.QWidget(self.UtilitiesBox)
-        self.gridLayoutWidget_4.setGeometry(QtCore.QRect(9, 19, 681, 171))
+        self.gridLayoutWidget_4.setGeometry(QtCore.QRect(9, 19, 400, 171))
         self.gridLayoutWidget_4.setObjectName("gridLayoutWidget_4")
         self.UtilitiesLayout = QtWidgets.QGridLayout(self.gridLayoutWidget_4)
         self.UtilitiesLayout.setContentsMargins(0, 0, 0, 0)
         self.UtilitiesLayout.setObjectName("UtilitiesLayout")
+        
+        #makeCSV Button Set up
         self.MakeCSVButton = QtWidgets.QToolButton(self.gridLayoutWidget_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.MakeCSVButton.sizePolicy().hasHeightForWidth())
+        #sizePolicy.setHeightForWidth(self.MakeCSVButton.sizePolicy().hasHeightForWidth())
         self.MakeCSVButton.setSizePolicy(sizePolicy)
         self.MakeCSVButton.setObjectName("MakeCSVButton")
         self.UtilitiesLayout.addWidget(self.MakeCSVButton, 0, 2, 1, 1)
+        
+        #Restore DF Set up
         self.RestoreDFButton = QtWidgets.QToolButton(self.gridLayoutWidget_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -161,6 +178,8 @@ class Ui_DataSpanner(QMainWindow):
         self.RestoreDFButton.setSizePolicy(sizePolicy)
         self.RestoreDFButton.setObjectName("RestoreDFButton")
         self.UtilitiesLayout.addWidget(self.RestoreDFButton, 0, 1, 1, 1)
+        
+        #Save DF Button
         self.SaveDFButton = QtWidgets.QToolButton(self.gridLayoutWidget_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -170,6 +189,9 @@ class Ui_DataSpanner(QMainWindow):
         self.SaveDFButton.setObjectName("SaveDFButton")
         self.UtilitiesLayout.addWidget(self.SaveDFButton, 0, 0, 1, 1)
         self.Tools.addWidget(self.UtilitiesBox)
+
+        
+        #clean box set up
         self.CleanBox = QtWidgets.QGroupBox(self.verticalLayoutWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -184,6 +206,8 @@ class Ui_DataSpanner(QMainWindow):
         self.CleanLayout.setContentsMargins(0, 0, 0, 0)
         self.CleanLayout.setSpacing(0)
         self.CleanLayout.setObjectName("CleanLayout")
+        
+        #remove value in column
         self.RemoveValueInColumnButton = QtWidgets.QToolButton(self.gridLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -192,6 +216,8 @@ class Ui_DataSpanner(QMainWindow):
         self.RemoveValueInColumnButton.setSizePolicy(sizePolicy)
         self.RemoveValueInColumnButton.setObjectName("RemoveValueInColumnButton")
         self.CleanLayout.addWidget(self.RemoveValueInColumnButton, 1, 0, 1, 1)
+        
+        #column titles to lower case
         self.ColumnTitlesLowerCaseButton = QtWidgets.QToolButton(self.gridLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -200,6 +226,8 @@ class Ui_DataSpanner(QMainWindow):
         self.ColumnTitlesLowerCaseButton.setSizePolicy(sizePolicy)
         self.ColumnTitlesLowerCaseButton.setObjectName("ColumnTitlesLowerCaseButton")
         self.CleanLayout.addWidget(self.ColumnTitlesLowerCaseButton, 0, 1, 1, 1)
+        
+        #DropblankColumns
         self.DropBlankColumnsButton = QtWidgets.QToolButton(self.gridLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -208,6 +236,8 @@ class Ui_DataSpanner(QMainWindow):
         self.DropBlankColumnsButton.setSizePolicy(sizePolicy)
         self.DropBlankColumnsButton.setObjectName("DropBlankColumnsButton")
         self.CleanLayout.addWidget(self.DropBlankColumnsButton, 0, 0, 1, 1)
+        
+        #Remove White Space In Headers
         self.RemoveWhiteSpaceInHeadersButton = QtWidgets.QToolButton(self.gridLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -216,6 +246,8 @@ class Ui_DataSpanner(QMainWindow):
         self.RemoveWhiteSpaceInHeadersButton.setSizePolicy(sizePolicy)
         self.RemoveWhiteSpaceInHeadersButton.setObjectName("RemoveWhiteSpaceInHeadersButton")
         self.CleanLayout.addWidget(self.RemoveWhiteSpaceInHeadersButton, 0, 2, 1, 1)
+        
+        #strip whitespace in column
         self.StripWhiteSpaceInColumnsButton = QtWidgets.QToolButton(self.gridLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -225,6 +257,8 @@ class Ui_DataSpanner(QMainWindow):
         self.StripWhiteSpaceInColumnsButton.setObjectName("StripWhiteSpaceInColumnsButton")
         self.CleanLayout.addWidget(self.StripWhiteSpaceInColumnsButton, 1, 1, 1, 1)
         self.Tools.addWidget(self.CleanBox)
+        
+        #Set Up Transform Box
         self.TransformBox = QtWidgets.QGroupBox(self.verticalLayoutWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -239,6 +273,8 @@ class Ui_DataSpanner(QMainWindow):
         self.TransformLayout.setContentsMargins(0, 0, 0, 0)
         self.TransformLayout.setSpacing(0)
         self.TransformLayout.setObjectName("TransformLayout")
+        
+        #advanced Mathematics button
         self.AdvancedMathematicsButton = QtWidgets.QToolButton(self.gridLayoutWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -247,6 +283,8 @@ class Ui_DataSpanner(QMainWindow):
         self.AdvancedMathematicsButton.setSizePolicy(sizePolicy)
         self.AdvancedMathematicsButton.setObjectName("AdvancedMathematicsButton")
         self.TransformLayout.addWidget(self.AdvancedMathematicsButton, 1, 2, 1, 1)
+        
+        #Melt Data Button
         self.MeltTransposeDataButton = QtWidgets.QToolButton(self.gridLayoutWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -255,6 +293,8 @@ class Ui_DataSpanner(QMainWindow):
         self.MeltTransposeDataButton.setSizePolicy(sizePolicy)
         self.MeltTransposeDataButton.setObjectName("MeltTransposeDataButton")
         self.TransformLayout.addWidget(self.MeltTransposeDataButton, 0, 1, 1, 1)
+        
+        #Cast Data type button 
         self.CastDataTypesButton = QtWidgets.QToolButton(self.gridLayoutWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -263,6 +303,8 @@ class Ui_DataSpanner(QMainWindow):
         self.CastDataTypesButton.setSizePolicy(sizePolicy)
         self.CastDataTypesButton.setObjectName("CastDataTypesButton")
         self.TransformLayout.addWidget(self.CastDataTypesButton, 0, 0, 1, 1)
+        
+        #Basic Mathematics button
         self.BasicMathematicsButton = QtWidgets.QToolButton(self.gridLayoutWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -271,6 +313,8 @@ class Ui_DataSpanner(QMainWindow):
         self.BasicMathematicsButton.setSizePolicy(sizePolicy)
         self.BasicMathematicsButton.setObjectName("BasicMathematicsButton")
         self.TransformLayout.addWidget(self.BasicMathematicsButton, 0, 2, 1, 1)
+        
+        #Substitute Values Button
         self.SubstituteValuesButton = QtWidgets.QToolButton(self.gridLayoutWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -280,6 +324,8 @@ class Ui_DataSpanner(QMainWindow):
         self.SubstituteValuesButton.setObjectName("SubstituteValuesButton")
         self.TransformLayout.addWidget(self.SubstituteValuesButton, 1, 0, 1, 1)
         self.Tools.addWidget(self.TransformBox)
+        
+        #analyse Box
         self.AnalyseBox = QtWidgets.QGroupBox(self.verticalLayoutWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -585,7 +631,7 @@ class Ui_DataSpanner(QMainWindow):
 
     def checker(self):
         try:
-            self.OutputText.insertPlainText("Data as at: " + str(datetime.datetime.now()) +'\n' + df.to_string() + '\n\n')
+            self.OutputText.insertPlainText("\nData as at: " + str(datetime.datetime.now()) +'\n' + df.to_string() + '\n\n')
             self.OutputText.repaint()
         except Exception as e:
             self.OutputText.insertPlainText('\n'+str(e)+'\n')

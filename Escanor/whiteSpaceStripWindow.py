@@ -32,6 +32,7 @@ class Ui_RemoveWhiteSpace(QtWidgets.QWidget):
 
     def stripWhiteSpace(self):
         try:
+            df = dfForStrip
             columToStrip=str(self.columnToClean.text())
             df[columnToStrip] = df[columnToStrip].str.strip()
             self.dfSignalStrip.emit(df)
